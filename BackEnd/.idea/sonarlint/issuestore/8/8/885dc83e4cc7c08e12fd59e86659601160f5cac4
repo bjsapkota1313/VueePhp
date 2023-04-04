@@ -1,0 +1,5 @@
+
+W	php:S1808<"=Move this open curly brace to the beginning of the next line.(’’²·üÿÿÿÿ
+d	php:S18083"JPut one space between the closing parenthesis and the opening curly brace.(”ë¸Ÿúÿÿÿÿ
+^	php:S18083"DPut one space between this "if" keyword and the opening parenthesis.(”ë¸Ÿúÿÿÿÿ
+yphp:S100<"`Rename function "CheckUserExistenceByEmail" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(’’²·üÿÿÿÿ
