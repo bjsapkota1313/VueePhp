@@ -68,24 +68,22 @@ class AdController extends AbstractController implements InterfaceAPIController
         if (empty($token)) {
             return;
         }
-        file_get_contents('php://input');
         $adDetails = $this->sanitize(json_decode($_POST['adDetails']));
-        echo print_r($adDetails);
         $adImage = $_FILES['adImage'];
-       // $adDetails->userId = $token->data->id;
-//        $adDetails->image = $adImage;
-//        try {
-//            $createdAd = $this->adService->createNewAd($adDetails);
-//            if (!empty($createdAd)) {
-//                $this->respond($createdAd);
-//            } else {
-//                $this->respondWithError(500, "Please try again something went wrong while adding your error");
-//            }
-//        } catch (UnsupportedFile $e) {
-//            $this->respondWithError(415, $e->getMessage());
-//        } catch (FileManagementException|InternalErrorException $e) {
-//            $this->respondWithError(500, $e->getMessage());
-//        }
+        $adDetails->userId = $token->data->id;
+        $adDetails->image = $adImage;
+        try {
+            $createdAd = $this->adService->createNewAd($adDetails);
+            if (!empty($createdAd)) {
+                $this->respond($createdAd);
+            } else {
+                $this->respondWithError(500, "Please try again something went wrong while adding your error");
+            }
+        } catch (UnsupportedFile $e) {
+            $this->respondWithError(415, $e->getMessage());
+        } catch (FileManagementException|InternalErrorException $e) {
+            $this->respondWithError(500, $e->getMessage());
+        }
     }
 
     function delete($id)
@@ -118,9 +116,13 @@ class AdController extends AbstractController implements InterfaceAPIController
         if (empty($token)) {
             return;
         }
-        $adDetails = $this->sanitize($_POST['adDetails']);
-        $adImage = $_FILES['adImage'];
+        if(empty($adDetails->status)){
+
+        }
         echo print_r($adDetails);
+//        $adDetails = $this->sanitize($_POST['adDetails']);
+//        $adImage = $_FILES['adImage'];
+//        echo print_r($adDetails);
     }
 
     /**

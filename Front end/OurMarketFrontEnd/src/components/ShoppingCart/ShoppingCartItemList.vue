@@ -1,6 +1,6 @@
 <template>
-    <div class="card">
-        <div class="card-body p-4">
+    <div class="card" v-if="UseShoppingCartStore.getItemsCount !==0">
+        <div class="card-body">
             <div class="row">
                 <div class="col">
                     <h5 class="mb-3">
@@ -19,8 +19,44 @@
                     <ShoppingCartItem v-for="ad in shoppingCartItems" :key="ad.id" :ad="ad"
                                       @removeItemSuccessfully="removeItemSuccessfully"
                     ></ShoppingCartItem>
+                    <div class="card-footer">
+                        <div class="d-flex d-md-flex justify-content-between">
+                            <p class="mb-2"><strong>VAT Amount (21%)</strong></p>
+                            <p class="mb-2">
+                                € {{ totalVat.toFixed(2) }}</p>
+                        </div>
+                        <div class="d-flex d-md-flex justify-content-between">
+                            <p class="mb-2"><strong>Delivery Fee</strong></p>
+                            <p class="mb-2">€0.00</p>
+                        </div>
+
+                        <div class="d-flex d-md-flex justify-content-between mb-4">
+                            <p class="mb-2"><strong>Total (Incl. taxes)</strong></p>
+                            <p class="mb-2">
+                                €{{ total.toFixed(2) }}</p>
+                        </div>
+                        <button name="buttonCheckOut" type="submit" class="btn  btn-block btn-lg d-sm-block float-right"
+                                style="float: right !important; background-color:#00ff00;">
+                            <div class="d-flex">
+                                <span>Checkout €{{ total.toFixed(2) }} <i
+                                        class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div v-else>
+        <div class="container text-center my-5">
+            <h1 class="display1">
+                <span style=" color:#00ff00">"You're not only saving money, you're saving the planet too!"</span>
+            </h1>
+            <h5 class="text-muted">
+                Every time you buy something used product, you're helping to reduce the demand for new products and the
+                resources needed to make them. So, <span class="text-primary">"Shop Used Product, Save the world"</span>!
+            </h5>
+            <RouterLink class="btn btn-primary" to="/">Shop Now !</RouterLink>
         </div>
     </div>
 </template>
@@ -44,6 +80,14 @@ export default {
     components: {
         ShoppingCartItem
     },
+    computed: {
+        total() {
+            return this.UseShoppingCartStore.getTotalPrice;
+        },
+        totalVat() {
+            return this.UseShoppingCartStore.getTotalPrice * 0.21;
+        }
+    },
     mounted() {
         this.loadShoppingCartItems();
     },
@@ -53,11 +97,6 @@ export default {
         },
         removeItemSuccessfully() {
             this.loadShoppingCartItems();
-            console.log('removeItemSuccessfully');
-        },
-        getAllItems(){
-
-
         }
     }
 

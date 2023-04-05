@@ -5,37 +5,45 @@ import Swal from "sweetalert2";
 export const UseShoppingCartStore = defineStore('ShoppingCart', {
     state: () => ({
         adIds: [],
-        ads: []
+        ads: [],
+        totalPrice: 0
 
     }),
     getters: {
-        getAds: (state) =>   state.ads,
+        getAds: (state) => state.ads,
         getItemsCount: (state) => state.ads.length,
+        getTotalPrice: (state) => {
+            let totalPrice = 0;
+            state.ads.forEach((ad) => {
+                totalPrice += ad.price;
+            });
+            return totalPrice;
+        }
     },
     actions: {
-         addAd(adId) {
-             if(this.checkExistenceOfAdInCart(adId)) {
-                 Swal.fire({
-                     position: 'top-end',
-                     title: 'oops!',
-                     text: 'This ad is already in your cart',
-                     showConfirmButton: true,
-                     timer: 1500
-                 })
-                 return;
-             }
+        addAd(adId) {
+            if (this.checkExistenceOfAdInCart(adId)) {
+                Swal.fire({
+                    position: 'top-end',
+                    title: 'oops!',
+                    text: 'This ad is already in your cart',
+                    showConfirmButton: true,
+                    timer: 1500
+                })
+                return;
+            }
             this.getAd(adId)
                 .then((response) => {
-                    this.ads.push(response);
-                    this.adIds.push(adId);
-                    this.saveInLocalStorage();
-                }
-            ).catch((error) => {
+                        this.ads.push(response);
+                        this.adIds.push(adId);
+                        this.saveInLocalStorage();
+                    }
+                ).catch((error) => {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
                     title: error,
-                    text:error,
+                    text: error,
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -48,7 +56,7 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
             this.saveInLocalStorage();
         },
         checkExistenceOfAdInCart(adId) {
-             return this.adIds.includes(adId);
+            return this.adIds.includes(adId);
         }
         , clearCart() {
             this.adIds = [];
@@ -91,5 +99,11 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
                 this.adIds = [];
             }
         }
-    }
+    },
 });
+// Clear the store and local storage after 20 minutes
+setTimeout(() => {
+    UseShoppingCartStore().clearCart();
+    UseShoppingCartStore().$reset();
+
+}, 20 * 60 * 1000) // 20 minutes in milliseconds

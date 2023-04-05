@@ -50,6 +50,7 @@
 
 <script>
 import axios from '@/axios-auth.js';
+import {formToJSON} from "axios";
 
 export default {
     name: "AddAdModal",
@@ -80,20 +81,23 @@ export default {
             }
             this.sendAddingAdRequest(this.getFormData)
                 .then(response => {
-                this.$emit('adAddedSuccessFully');
-            }).catch(error => {
+                    this.$emit('adAddedSuccessFully');
+                }).catch(error => {
                 this.error = error;
             });
         },
         sendAddingAdRequest(formData) {
             return new Promise((resolve, reject) => {
-                axios.post('/ads', formData )
+                axios.post('/ads', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
                     .then(response => {
-                    console.log(response);
-                    // if (response.status === 200) {
-                //     resolve(response.data); // object is returned after successful post //TODO: check if this is correct
-                    // }
-                }).catch(error => {
+                        if (response.status === 200) {
+                            resolve(response.data);
+                        }
+                    }).catch(error => {
                     reject(error.response.data.errorMessage);
                 });
             });
@@ -114,7 +118,7 @@ export default {
                 price: this.price,
                 description: this.productDescription
             }
-            formData.append('adDetails', adDetails);
+            formData.append('adDetails', JSON.stringify(adDetails));
             formData.append('adImage', this.image);
             return formData;
         }

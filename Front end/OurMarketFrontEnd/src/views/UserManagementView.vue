@@ -37,7 +37,9 @@ export default {
         }
     },
     mounted() {
-        this.loadsUsers();
+        if(this.userSessionStore.isLoggedIn){
+            this.loadsUsers();
+        }
     },
     methods: {
         userDeletedSuccessFully() {
@@ -48,6 +50,7 @@ export default {
                 .then(response => {
                     if (response.status === 403) {
                         this.isAdmin = false;
+
                     } else if (response.status === 200) {
                         return response.data;
                     }

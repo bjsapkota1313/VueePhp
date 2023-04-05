@@ -23,7 +23,6 @@
                                 {{ ad.price.toFixed(2) }}</strong>
                         </p>
                     </div>
-                    <input type="hidden" name="hiddenSHoppingCartItemID" value="<?= $ad->getId() ?>>">
                     <button name="removeCartItem" style=" border:none; background-color: transparent; color: #cecece;" @click="removeItem(ad.id)">
                         <i class="fas fa-trash-alt"></i>
                     </button>

@@ -56,6 +56,7 @@ export default {
     },
     methods: {
         adAddedSuccessFully() {
+            this.closeAddAdModal();
             this.$refs.MyAdsList.loadAds();
         },
         openAddAdModal() {
