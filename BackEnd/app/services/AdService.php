@@ -19,13 +19,13 @@ class AdService
     {
         $this->adRepository = new AdRepository();
     }
-    public function getAllAdsByStatus(Status $status,$offset = NULL, $limit = NULL)
+    public function getAllAdsByStatus(Status $status, $limit = NULL,$offset = NULL): ?array
     {
-        return $this->adRepository->getAllAdsByStatus($status,$offset, $limit );
+        return $this->adRepository->getAllAdsByStatus($status,$limit, $offset );
     }
-    public function searchAdsByProductName($productName, $offset = NULL, $limit = NULL)
+    public function searchAdsByProductName($productName,  $limit = NULL,$offset = NULL)
     {
-        return $this->adRepository->searchAdsByProductName($productName, $offset, $limit);
+        return $this->adRepository->searchAdsByProductName($productName, $limit,$offset = NULL);
     }
 
     /**
@@ -35,9 +35,9 @@ class AdService
     {
         return $this->adRepository->getAdByID($adId);
     }
-    public function getAllAvailableAds($offset = NULL, $limit = NULL): ?array
+    public function getAllAvailableAds( $limit = NULL,$offset = NULL,): ?array
     {
-        return $this->getAllAdsByStatus(Status::Available(),$offset, $limit);
+        return $this->getAllAdsByStatus(Status::Available(), $limit,$offset);
     }
 
     /**

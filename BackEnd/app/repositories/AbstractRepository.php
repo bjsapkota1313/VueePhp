@@ -1,14 +1,17 @@
 <?php
+
 namespace Repositories;
 
 use PDO;
 use PDOException;
 
- abstract class AbstractRepository {
+abstract class AbstractRepository
+{
 
     protected $connection;
 
-    function __construct() {
+    function __construct()
+    {
 
         require __DIR__ . '/../dbconfig.php';
 
@@ -20,16 +23,17 @@ use PDOException;
 
         }
     }
-    protected function executeQueryAndGetResult($query,$params = array(), $fetchAll = true,$returnLastInsertId = false){
+
+    protected function executeQueryAndGetResult($query, $params = array(), $fetchAll = true, $returnLastInsertId = false)
+    {
         try {
-            $stmt=$this->connection->prepare($query);
+            $stmt = $this->connection->prepare($query);
             $this->bindValuesToQuery($stmt, $params);
             $stmt->execute();
             $rowCount = $stmt->rowCount();
             if ($rowCount == 0) {
                 return $this->handleZeroRowCount($query);
-            }
-             else if ($rowCount > 0) {
+            } else if ($rowCount > 0) {
                 return $this->handlePositiveRowCount($query, $stmt, $fetchAll, $returnLastInsertId);
             }
 
@@ -37,12 +41,18 @@ use PDOException;
             echo $e;
         }
     }
+
     private function bindValuesToQuery($stmt, $params): void
     {
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            if (is_int($value)) {
+                $stmt->bindValue($key, $value, PDO::PARAM_INT);
+            }else{
+                $stmt->bindValue($key, $value);
+            }
         }
     }
+
     private function handleZeroRowCount($query): ?bool
     {
         if (!stripos($query, 'insert') !== false || stripos($query, 'delete') !== false || stripos($query, 'update') !== false) {
@@ -50,21 +60,22 @@ use PDOException;
         }
         return null;
     }
+
     private function handlePositiveRowCount($query, $stmt, $fetchAll, $returnLastInsertId)
     {
-         if (stripos($query, 'delete') !== false || stripos($query, 'update') !== false || stripos($query, 'insert') !== false) {
-            if($returnLastInsertId){
+        if (stripos($query, 'delete') !== false || stripos($query, 'update') !== false || stripos($query, 'insert') !== false) {
+            if ($returnLastInsertId) {
                 return $this->connection->lastInsertId();
             }
-             return true;
+            return true;
         } else {
-             if(!stripos($query, 'select')){
-                 if ($fetchAll) {
-                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-                 } else {
-                     return $stmt->fetch(PDO::FETCH_ASSOC);
-                 }
-             }
+            if (stripos($query, 'select') !== false) {
+                if ($fetchAll) {
+                    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                } else {
+                    return $stmt->fetch(PDO::FETCH_ASSOC);
+                }
+            }
 
         }
     }

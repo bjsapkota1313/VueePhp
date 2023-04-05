@@ -27,19 +27,21 @@ class AdRepository extends AbstractRepository
     /**
      * @throws Exception
      */
-    public function getAllAdsByStatus(Status $status,$offset = NULL, $limit = NULL): ?array
+    public function getAllAdsByStatus(Status $status, $limit = NULL, $offset = NULL): ?array
     {
-        $query = "SELECT id,productName,description,postedDate,price,imageURI,userID,status From Ads WHERE status=:status ORDER BY postedDate DESC";
-        $parameters = ["status" => Status::getLabel($status)];
-        if (isset($limit) && isset($offset)) {
-            $query .= " LIMIT :limit OFFSET :offset ";
-            $parameters[]=[":limit" =>$limit,":offset"=>$offset];
+        $query = "SELECT id,productName,description,postedDate,price,imageURI,userID,status From Ads 
+                                    WHERE status= :status ORDER BY postedDate DESC "; // latest post
+        $parameters = [":status" => Status::getLabel($status)];
+        if (!empty($this->buildLimitOffsetClause($limit, $offset))) {
+            $query .= " LIMIT :limit OFFSET :offset";
+            $parameters[":limit"] = (int)$limit;
+            $parameters[":offset"] = (int)$offset;
         }
-        $result = $this->executeQueryAndGetResult($query, $parameters);
-        if (!empty($result)) {
+        $dbResult = $this->executeQueryAndGetResult($query, $parameters);
+        if (!empty($dbResult)) {
             $ads = array();
-            foreach ($result as $row) {
-                $ads[] = $this->MakeAnAD($row);
+            foreach ($dbResult as $ad) {
+                $ads[] = $this->makeAnAD($ad);
             }
             return $ads;
         }
@@ -62,14 +64,14 @@ class AdRepository extends AbstractRepository
     /**
      * @throws ObjectCreationException
      */
-    public function getAdsByUser($userId, $limit=null, $offset=null): ?array
+    public function getAdsByUser($userId, $limit = null, $offset = null): ?array
     {
         $query = "SELECT id,productName,description,postedDate,price,imageURI,userID,status From Ads 
                                 WHERE UserID= :userID ORDER BY postedDate DESC"; // latest post
         $parameters = [":userID" => $userId];
-        if(!empty($this->buildLimitOffsetClause($limit,$offset))){
+        if (!empty($this->buildLimitOffsetClause($limit, $offset))) {
             $query .= " LIMIT :limit OFFSET :offset ";
-            $parameters[]=[":limit" =>$limit,":offset"=>$offset];
+            $parameters[] = [":limit" => $limit, ":offset" => $offset];
         }
         $result = $this->executeQueryAndGetResult($query, $parameters);
         if (!empty($result)) {
@@ -120,7 +122,7 @@ class AdRepository extends AbstractRepository
     /**
      * @throws InternalErrorException
      */
-    public function createNewAd( $ad): ?Ad
+    public function createNewAd($ad): ?Ad
     {
         $query = "INSERT INTO Ads( productName, description,  price, userID, imageURI) VALUES (:productName,:description,:price,:userID,:imageURI)";
         $parameters = [
@@ -131,10 +133,9 @@ class AdRepository extends AbstractRepository
             ":imageURI" => $ad->imageURI
         ];
         $result = $this->executeQueryAndGetResult($query, $parameters, false, true);
-        if(is_numeric($result)){ // it will return the last inserted id
-           return $this->getAdByID($result) ;
-        }
-        else{
+        if (is_numeric($result)) { // it will return the last inserted id
+            return $this->getAdByID($result);
+        } else {
             throw new InternalErrorException("Something went wrong while retrieving an inserted Ad");
         }
 
@@ -179,20 +180,16 @@ class AdRepository extends AbstractRepository
     /**
      * @throws ObjectCreationException
      */
-    public function searchAdsByProductName($productName,$limit,$offset): ?array
+    public function searchAdsByProductName($productName, $limit, $offset): ?array
     {
-        $query = "SELECT id,productName,description,postedDate,price,imageURI,userID,status FROM Ads WHERE `productName` LIKE :productName AND status =:status";
-        $parameters = [":productName" => '%' . $productName . '%', ":status" => Status::getLabel(Status::Available())]; // getting only available ads otherwise user can search  see every ad
-        $buildLimitOffset = $this->buildLimitOffsetClause($limit,$offset);
-        if(!empty($buildLimitOffset)){
-            $query.=$buildLimitOffset['query'];
-            $parameters = array_merge($parameters, $buildLimitOffset['parameters']);
-        }
-        $result = $this->executeQueryAndGetResult($query, $parameters);
-        if (!empty($result)) {
+        $query = "SELECT id,productName,description,postedDate,price,imageURI,userID,status FROM Ads
+                                                        WHERE `productName` LIKE :productName AND status =:status";
+        $parameters = [":productName" => '%' . $productName . '%', ":status"=> Status::getLabel(Status::Available())];
+        $dbResult = $this->executeQueryAndGetResult($query, $parameters);
+        if (!empty($dbResult)) {
             $ads = array();
-            foreach ($result as $row) {
-                $ads[] = $this->MakeAnAD($row);
+            foreach ($dbResult as $row) {
+                $ads[] = $this->makeAnAd($row);
             }
             return $ads;
         }
@@ -225,9 +222,10 @@ class AdRepository extends AbstractRepository
             throw new FileManagementException("error occurred while editing file ");
         }
     }
+
     private function buildLimitOffsetClause($limit, $offset): ?array
     {
-        if(!empty($limit) && !empty($offset)){
+        if (isset($limit) && isset($offset)) {
             return [
                 'query' => 'LIMIT :limit OFFSET :offset',
                 'parameters' => [':limit' => $limit, ':offset' => $offset]

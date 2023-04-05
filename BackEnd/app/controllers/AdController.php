@@ -36,7 +36,7 @@ class AdController extends AbstractController implements InterfaceAPIController
         if (isset($_GET['name'])) {
             return $this->handleSearchRequest($_GET['name'], $limit, $offset);
         }
-        $ads = $this->adService->getAllAvailableAds($offset, $limit);
+        $ads = $this->adService->getAllAvailableAds( $limit, $offset);
         if (empty($ads)) {
             return $this->respondWithError(404, "No ads found");
         }

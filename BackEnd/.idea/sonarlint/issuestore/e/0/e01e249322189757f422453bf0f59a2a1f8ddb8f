@@ -1,19 +1,0 @@
-
-kphp:S1030"KSplit this 129 characters long line (which is greater than 120 authorized).(ğšÏ§ÿÿÿÿÿ8Ì·–ò0
-kphp:S1037"KSplit this 129 characters long line (which is greater than 120 authorized).(àâ¨ùÿÿÿÿ8æ‘ƒ–ò0
-Bphp:S108")Either remove or fill this block of code.(ãÓ˜“ÿÿÿÿÿ
-W	php:S1808"=Move this open curly brace to the beginning of the next line.(Éˆøÿÿÿÿ
-R	php:S1808"=Move this open curly brace to the beginning of the next line.(¨ÿ—¦
-Y	php:S1808"=Move this open curly brace to the beginning of the next line.(£ªê8¼ı§ıï0
-b	php:S1808 "FMove this "else" to the same line as the previous closing curly brace.(ÀÜ§¦8÷ê˜ıï0
-_	php:S1808"JPut one space between the closing parenthesis and the opening curly brace.(£ªê
-f	php:S18088"JPut one space between the closing parenthesis and the opening curly brace.(¾Ş“8÷ê˜ıï0
-f	php:S1808="JPut one space between the closing parenthesis and the opening curly brace.(ùÙÆ”8¼ı§ıï0
-R	php:S1808"6Put exactly one space after comma separated arguments.(£ªê8¼ı§ıï0
-`	php:S18088"DPut one space between this "if" keyword and the opening parenthesis.(¾Ş“8÷ê˜ıï0
-`	php:S1808="DPut one space between this "if" keyword and the opening parenthesis.(ùÙÆ”8ï‡–ò0
-Y	php:S1784"DExplicitly mention the visibility of this constructor "__construct".(¨ÿ—¦
-Q	php:S11425"<This method has 4 returns, which is more than the 3 allowed.(Š¬ñı
-;	php:S2003"&Replace "require" with "require_once".(ª«–¢
-X	php:S1793 "<Replace this "else if" keyword sequence by "elseif" keyword.(ÀÜ§¦8¼ı§ıï0
-a	php:S4833"LReplace "require" with namespace import mechanism through the "use" keyword.(ª«–¢
