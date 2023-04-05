@@ -6,6 +6,7 @@ use Models\Ad;
 use Models\Exceptions\FileManagementException;
 use Models\Exceptions\InternalErrorException;
 use Models\Exceptions\ObjectCreationException;
+use Models\Exceptions\UnsupportedFile;
 use Models\Status;
 use Repositories\AdRepository;
 use Models\ImageManager;
@@ -26,7 +27,11 @@ class AdService
     {
         return $this->adRepository->searchAdsByProductName($productName, $offset, $limit);
     }
-    public function getAdByID($adId)
+
+    /**
+     * @throws ObjectCreationException
+     */
+    public function getAdByID($adId): ?Ad
     {
         return $this->adRepository->getAdByID($adId);
     }
@@ -51,8 +56,7 @@ class AdService
         if(!empty($adDetails->image)){
             $adDetails->imageURI = $this->saveImage($adDetails->image);
         }
-        print_r($adDetails);
-       // return $this->adRepository->createNewAd($adDetails);
+        return $this->adRepository->createNewAd($adDetails);
     }
     public function updateStatusOfAd($status, $adID)
     {
@@ -81,9 +85,11 @@ class AdService
      */
     private function saveImage($image): string
     {
+        if($this->checkValidImageOrNot($image) === false){
+            throw new UnsupportedFile("Invalid Image File");
+        }
         $uniqueName = $this->getUniqueImageNameByImageName($image);
-        $image['name']=$uniqueName;
-        $this->moveImageToSpecifiedDirectory($image, __DIR__ . "/../public/img/");
+        $this->moveImageToSpecifiedDirectory($image, __DIR__ . "/../public/img/" . $uniqueName);
         return $uniqueName;
     }
 

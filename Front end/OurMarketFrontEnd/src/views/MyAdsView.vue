@@ -14,9 +14,10 @@
                 </div>
             </div>
         </div>
-        <MyAdsList></MyAdsList>
+        <MyAdsList ref="MyAdsList"></MyAdsList>
         <AddAdModal v-show="showModal"
-                    @closeModal="closeAddAdModal">
+                    @closeModal="closeAddAdModal"
+                        @adAddedSuccessFully ="adAddedSuccessFully">
         </AddAdModal>
     </div>
     <div v-else>
@@ -54,6 +55,9 @@ export default {
         }
     },
     methods: {
+        adAddedSuccessFully() {
+            this.$refs.MyAdsList.loadAds();
+        },
         openAddAdModal() {
             this.showModal = true;
             this.updateModalActive();

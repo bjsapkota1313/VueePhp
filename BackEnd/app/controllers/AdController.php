@@ -6,6 +6,7 @@ use Controllers\AbstractController;
 use Models\Exceptions\FileManagementException;
 use Models\Exceptions\InternalErrorException;
 use Models\Exceptions\ObjectCreationException;
+use Models\Exceptions\UnsupportedFile;
 use Models\InterfaceAPIController;
 use mysql_xdevapi\Exception;
 use Services\AdService;
@@ -44,13 +45,20 @@ class AdController extends AbstractController implements InterfaceAPIController
 
     }
 
+    /**
+     * @throws ObjectCreationException
+     */
     function getOne($id)
     {
-        $ad = $this->adService->getAdByID($id);
-        if (empty($ad)) {
-            $this->respondWithError(404, "Ad not found");
-        } else {
-            $this->respond($ad);
+        try{
+            $ad = $this->adService->getAdByID($id);
+            if (empty($ad)) {
+                $this->respondWithError(404, "Ad not found");
+            } else {
+                $this->respond($ad);
+            }
+        }catch (InternalErrorException | ObjectCreationException $e){
+            $this->respondWithError(500, "Something went wrong while fetching the ad");
         }
     }
 
@@ -60,22 +68,24 @@ class AdController extends AbstractController implements InterfaceAPIController
         if (empty($token)) {
             return;
         }
+        file_get_contents('php://input');
         $adDetails = $this->sanitize(json_decode($_POST['adDetails']));
+        echo print_r($adDetails);
         $adImage = $_FILES['adImage'];
-        $adDetails->userId = $token->data->id;
-        $adDetails->image = $adImage;
-        try{
-            $createdAd = $this->adService->createNewAd($adDetails);
-            if(!empty($createdAd)){
-                $this->respond($createdAd);
-            }
-            else{
-                $this->respondWithError(500, "Please try again something went wrong while adding your error");
-            }
-        }
-        catch (FileManagementException  | InternalErrorException $e){
-            $this->respondWithError(500, $e->getMessage());
-        }
+       // $adDetails->userId = $token->data->id;
+//        $adDetails->image = $adImage;
+//        try {
+//            $createdAd = $this->adService->createNewAd($adDetails);
+//            if (!empty($createdAd)) {
+//                $this->respond($createdAd);
+//            } else {
+//                $this->respondWithError(500, "Please try again something went wrong while adding your error");
+//            }
+//        } catch (UnsupportedFile $e) {
+//            $this->respondWithError(415, $e->getMessage());
+//        } catch (FileManagementException|InternalErrorException $e) {
+//            $this->respondWithError(500, $e->getMessage());
+//        }
     }
 
     function delete($id)

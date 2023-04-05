@@ -34,6 +34,13 @@ export const useUserSessionStore = defineStore('userSession', {
           reject(error.response.data.errorMessage);
         })
       });
+    },
+    logout() {
+      this.jwt = '';
+      this.firstName = '';
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('firstName');
+      delete axios.defaults.headers.common['Authorization'];
     }
   },
 })

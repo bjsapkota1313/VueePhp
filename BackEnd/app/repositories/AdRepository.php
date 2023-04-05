@@ -46,12 +46,15 @@ class AdRepository extends AbstractRepository
         return null;
     }
 
+    /**
+     * @throws ObjectCreationException
+     */
     public function getAdByID($adId): ?Ad
     {
         $query = "SELECT id,productName,description,postedDate,price,imageURI,userID,status From Ads WHERE id= :adId";
         $result = $this->executeQueryAndGetResult($query, [":adId" => $adId], false);
         if (!empty($result)) {
-            return $this->MakeAnAD($result);
+            return $this->makeAnAD($result);
         }
         return null;
     }

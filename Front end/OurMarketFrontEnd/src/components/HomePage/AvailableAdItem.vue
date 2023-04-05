@@ -9,7 +9,7 @@
                 <p class="card-text">
                     {{ ad.description }}
                 </p>
-                <button id="AddToCart" class="btn btn-primary position-relative" type="submit"><i
+                <button class="btn btn-primary position-relative" type="button" @click="addToCart"><i
                         class="fa-solid fa-cart-plus"></i>
                     €
                     {{ ad.price.toFixed(2) }}
@@ -23,14 +23,27 @@
                     </strong>
                 </p>
             </div>
+            <ErrorMessageBox
+                v-show="displayErrorMessageBox"
+                title="Sorry"
+                :message="errorMessage"
+                @closeModal="closeErrorMessageBox"> </ErrorMessageBox>
         </div>
     </div>
 </template>
 
 <script>
 import {IMG_BASE_URL} from '../../constants.js';
+import  {UseShoppingCartStore} from "@/stores/shoppingCart.js";
+import ErrorMessageBox from "@/components/ErrorMessageBox.vue";
 export default {
     name: "AvailableAdItem",
+    components: {ErrorMessageBox},
+    setup() {
+        return {
+            UseShoppingCartStore:UseShoppingCartStore
+        }
+    },
     props: {
         ad: {
             type: Object
@@ -39,6 +52,24 @@ export default {
     data() {
         return {
             fullImageUrl:IMG_BASE_URL,
+            errorMessage: '',
+            displayErrorMessageBox: true
+        }
+    } ,
+    methods: {
+        async addToCart() {
+            try {
+                const result =  await this.UseShoppingCartStore.addAd(this.ad.id);
+                if (result === true) {
+
+                }
+            } catch (error) {
+                this.displayErrorMessageBox = true;
+                this.errorMessage = error;
+            }
+        },
+        closeErrorMessageBox() {
+            this.displayErrorMessageBox = false;
         }
     }
 }

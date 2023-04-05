@@ -27,7 +27,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import MyAdOtherStatusItem from './MyAdOtherStatusItem.vue';
 import MyAdAvailableItem from './MyAdAvailableItem.vue';
@@ -47,10 +46,7 @@ export default {
         MyAdAvailableItem
     },
     mounted() {
-        this.getAds()
-            .then((ads) => {
-            this.ads = ads;
-        });
+        this.loadAds();
     },
     computed: {
         availableAds() {
@@ -61,6 +57,12 @@ export default {
         }
     },
     methods: {
+        loadAds() {
+            this.getAds()
+                .then((ads) => {
+                    this.ads = ads;
+                });
+        },
         getAds() {
             return axios
                 .get('/ads/user')

@@ -80,22 +80,19 @@ export default {
             }
             this.sendAddingAdRequest(this.getFormData)
                 .then(response => {
-                this.$emit('adAdded');
+                this.$emit('adAddedSuccessFully');
             }).catch(error => {
                 this.error = error;
             });
-
         },
         sendAddingAdRequest(formData) {
             return new Promise((resolve, reject) => {
-                axios.post('/ads', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(response => {
-                    if (response.status === 200) {
-                        resolve(response.data); // object is returned after successful post
-                    }
+                axios.post('/ads', formData )
+                    .then(response => {
+                    console.log(response);
+                    // if (response.status === 200) {
+                //     resolve(response.data); // object is returned after successful post //TODO: check if this is correct
+                    // }
                 }).catch(error => {
                     reject(error.response.data.errorMessage);
                 });
