@@ -97,11 +97,11 @@ class UserRepository extends AbstractRepository
                 ":hashPassword" => $userDetails->hashPassword,
                 ":salt" => $userDetails->salt
             );
-           $result= $this->executeQueryAndGetResult($query, $parameters, false, true);
-            if(is_numeric($result)) {
-              return $this->getUserById($result);
+            $result = $this->executeQueryAndGetResult($query, $parameters, false, true);
+            if (is_numeric($result)) {
+                return $this->getUserById($result);
             }
-            throw new InternalErrorException("Error Processing Request", );
+            throw new InternalErrorException("Error Processing Request");
         } catch (PDOException $e) {
             $message = '[' . date("F j, Y, g:i a e O") . ']' . $e->getMessage() . $e->getCode() . $e->getFile() . ' Line ' . $e->getLine() . PHP_EOL;
             error_log("Database connection failed: " . $message, 3, __DIR__ . "/../Errors/error.log");
@@ -125,17 +125,50 @@ class UserRepository extends AbstractRepository
         }
     }
 
-    public function getAll()
+    public function getAll(): ?array
     {
-        try {
-            $stmt =
-            $stmt = $this->connection->prepare("SELECT * FROM Users");
-            $stmt->execute();
-            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\\User');
-            return $stmt->fetchAll();
-        } catch (PDOException $e) {
-
+        $query = "SELECT id,firstName, lastName, email,HashPassword,role FROM Users";
+        $dbResult = $this->executeQueryAndGetResult($query, array());
+        if (!empty($dbResult)) {
+            $users = [];
+            foreach ($dbResult as $result) {
+                $users[] = new User($result["id"], $result["firstName"], $result["lastName"], $result["email"], Roles::fromString($result["role"]));
+            }
+            return $users;
         }
+        return null;
+    }
+    public function hasUserAds($userId): bool
+    {
+        $query = "SELECT id FROM Ads WHERE userId= :userId";
+        $dbResult = $this->executeQueryAndGetResult($query, array(":userId" => $userId));
+        if (empty($dbResult)) {
+            return false;
+        }
+        return true;
+    }
+    public function getAdImagesOfUser($userId): ?array
+    {
+        $query = "SELECT imageURI FROM Ads WHERE userID=:userId";
+        $dbResult = $this->executeQueryAndGetResult($query, array(":userId" => $userId));
+        if (!empty($dbResult)) {
+            $imagesNames = [];
+            foreach ($dbResult as $result) {
+                $imagesNames[] = $result["imageURI"];
+            }
+            return $imagesNames;
+        }
+        return null;
+    }
+    public function deleteUser($userId): bool
+    {
+        $query = "DELETE FROM Users WHERE id=:userId"; // database on delete cascade whole ads while be deleted when
+        // user is deleted
+        $dbResult = $this->executeQueryAndGetResult($query, array(":userId" => $userId) );
+        if ($dbResult) {
+            return true;
+        }
+        return false;
     }
 
 }

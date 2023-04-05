@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import axios from "@/axios-auth";
+import Swal from "sweetalert2";
 
 export const UseShoppingCartStore = defineStore('ShoppingCart', {
     state: () => ({
@@ -8,24 +9,46 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
 
     }),
     getters: {
-        getAds: (state) => state.ads,
+        getAds: (state) =>   state.ads,
         getItemsCount: (state) => state.ads.length,
     },
     actions: {
-        async addAd(adId) {
-            try {
-                const response = await this.getAd(adId);
-                this.ads.push(response);
-                this.adIds.push(adId);
-                this.saveInLocalStorage();
-                return true;
-            } catch (error) {
-                return error;
-            }
+         addAd(adId) {
+             if(this.checkExistenceOfAdInCart(adId)) {
+                 Swal.fire({
+                     position: 'top-end',
+                     title: 'oops!',
+                     text: 'This ad is already in your cart',
+                     showConfirmButton: true,
+                     timer: 1500
+                 })
+                 return;
+             }
+            this.getAd(adId)
+                .then((response) => {
+                    this.ads.push(response);
+                    this.adIds.push(adId);
+                    this.saveInLocalStorage();
+                }
+            ).catch((error) => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: error,
+                    text:error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            });
         },
         removeAd(adId) {
-            this.adIds = this.adIds.filter((id) => id !== adId)
+            this.adIds = this.adIds.filter(
+                (id) => id !== adId);
+            this.ads = this.ads.filter((ad) => ad.id !== adId);
             this.saveInLocalStorage();
+        },
+        checkExistenceOfAdInCart(adId) {
+             return this.adIds.includes(adId);
         }
         , clearCart() {
             this.adIds = [];
@@ -39,7 +62,8 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
                                 resolve(response.data);
                             }
                             if (response.status === 404) {
-                                reject("This ad is not available anymore. ");
+                                let message = "This ad is not available anymore. ";
+                                reject(message);
                             }
                         }
                     ).catch((error) => {

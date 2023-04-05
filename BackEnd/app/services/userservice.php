@@ -3,13 +3,17 @@ namespace Services;
 
 use Exception;
 use Models\Exceptions\AlreadyExistsException;
+use Models\Exceptions\FileManagementException;
 use Models\Exceptions\InternalErrorException;
 use Models\Exceptions\NotFoundException;
+use Models\ImageManager;
+use Models\Roles;
 use Repositories\UserRepository;
 
 class UserService
 {
     private $repository;
+    use ImageManager;
 
 
     public function __construct()
@@ -63,5 +67,38 @@ class UserService
     public function getAll() :?array
     {
         return $this->repository->getAll();
+    }
+
+    /**
+     * @throws InternalErrorException
+     */
+    public function isUserAdmin($userId): bool
+    {
+        $user = $this->getUserById($userId);
+        if(empty($user)){
+            throw new InternalErrorException("User Does not exist");
+        }
+        return $user->getRole()->getValue() === Roles::Admin()->getValue();
+    }
+
+    /**
+     * @throws FileManagementException
+     */
+    public function deleteUser($userId): bool
+    {
+        $this->processUserAds($userId);
+        return $this->repository->deleteUser($userId);
+    }
+
+    /**
+     * @throws FileManagementException
+     */
+    public function processUserAds($userId) :void
+    {
+        if($this->repository->hasUserAds($userId)){
+            $imagesNames =$this->repository->getAdImagesOfUser($userId);
+            $this->deleteImagesFromDirectory($imagesNames,__DIR__ . "/../public");
+        }
+
     }
 }

@@ -9,7 +9,7 @@
                 <p class="card-text">
                     {{ ad.description }}
                 </p>
-                <button class="btn btn-primary position-relative" type="button" @click="addToCart"><i
+                <button class="btn btn-primary position-relative" type="button" @click="addToCart(ad.id)"><i
                         class="fa-solid fa-cart-plus"></i>
                     €
                     {{ ad.price.toFixed(2) }}
@@ -23,11 +23,6 @@
                     </strong>
                 </p>
             </div>
-            <ErrorMessageBox
-                v-show="displayErrorMessageBox"
-                title="Sorry"
-                :message="errorMessage"
-                @closeModal="closeErrorMessageBox"> </ErrorMessageBox>
         </div>
     </div>
 </template>
@@ -35,13 +30,12 @@
 <script>
 import {IMG_BASE_URL} from '../../constants.js';
 import  {UseShoppingCartStore} from "@/stores/shoppingCart.js";
-import ErrorMessageBox from "@/components/ErrorMessageBox.vue";
+import Swal from "sweetalert2";
 export default {
     name: "AvailableAdItem",
-    components: {ErrorMessageBox},
     setup() {
         return {
-            UseShoppingCartStore:UseShoppingCartStore
+            UseShoppingCartStore:UseShoppingCartStore()
         }
     },
     props: {
@@ -57,20 +51,9 @@ export default {
         }
     } ,
     methods: {
-        async addToCart() {
-            try {
-                const result =  await this.UseShoppingCartStore.addAd(this.ad.id);
-                if (result === true) {
-
-                }
-            } catch (error) {
-                this.displayErrorMessageBox = true;
-                this.errorMessage = error;
-            }
+         addToCart(id) {
+             this.UseShoppingCartStore.addAd(id);
         },
-        closeErrorMessageBox() {
-            this.displayErrorMessageBox = false;
-        }
     }
 }
 </script>

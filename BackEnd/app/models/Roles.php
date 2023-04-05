@@ -42,6 +42,22 @@ class Roles implements \JsonSerializable
         return $this->value === $other->value;
     }
 
+    /**
+     * @return string
+     */
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
+
     public static function fromString(string $value): self
     {
         return match ($value) {

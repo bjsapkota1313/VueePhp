@@ -69,9 +69,9 @@ trait ImageManager
     /**
      * @throws FileManagementException
      */
-    function deleteImagesFromDirectory($images, $directory): void
+    function deleteImagesFromDirectory($imagesNames, $directory): void
     {
-        foreach ($images as $imageName) {
+        foreach ($imagesNames as $imageName) {
             $this->deleteImageFromDirectory($directory . $imageName);
         }
     }
@@ -102,5 +102,6 @@ trait ImageManager
         $this->deleteImageFromDirectory($directory . $currentImageName);
         $this->moveImageToSpecifiedDirectory($newImage, $directory . $currentImageName);
     }
+
 
 }

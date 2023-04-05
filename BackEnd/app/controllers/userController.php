@@ -46,7 +46,7 @@ class UserController extends AbstractController
         try {
             $user = $this->service->createNewUser($postedUser);
             if (empty($user)) {
-                $this->respondWithError(500, "Internal Error");
+                $this->respondWithError(500, "Internal Error Try Again Later");
                 return;
             }
         } catch (AlreadyExistsException $e) {
@@ -60,9 +60,43 @@ class UserController extends AbstractController
     }
 
     public function getAll()
+    { // will egt all the user if it has admin role and if it is a user
+        $token = $this->checkForJwt();
+        if (empty($token)) {
+            return;
+        }
+        try{
+            if ($this->service->isUserAdmin($token->data->id)) {
+                $users = $this->service->getAll();
+                $this->respond($users);
+                return;
+            }
+            $this->respondWithError(403, "You are not authorized to view this page");
+            return;
+        }
+        catch(InternalErrorException $e){
+            $this->respondWithError(500, "Internal Error");
+        }
+
+    }
+    public function delete($id)
     {
-        $users = $this->service->getAll();
-        $this->respond($users); //TODO: add pagination
+        $token = $this->checkForJwt();
+        if (empty($token)) {
+            return;
+        }
+        try{
+            if ($this->service->isUserAdmin($token->data->id)) {
+                $this->service->deleteUser($id);
+                $this->respond(true);
+                return;
+            }
+            $this->respondWithError(403, "Currently you dont have permission to delete users");
+            return;
+        }
+        catch(InternalErrorException |Exception){
+            $this->respondWithError(500, "Internal Error Try Again Later");
+        }
     }
 
     private function generateJwt($user): array
@@ -92,6 +126,7 @@ class UserController extends AbstractController
                 "message" => "Successful login.",
                 "jwt" => $jwt,
                 "firstName" => $user->getFirstName(),
+                "emailAddress" => $user->getEmail(),
                 "expireAt" => $expire
             );
     }

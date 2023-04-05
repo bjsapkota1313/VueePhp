@@ -2,7 +2,7 @@
     <div class="card mb-3" id="card">
         <div class="row g-0">
             <div class="col-md-4 col-xl-4">
-                <img :src="fullImageUrl + ad.imageUri" class="img-fluid rounded-start">
+                <img :src="fullImageUrl + ad.imageUri" class="img-fluid rounded-start" >
             </div>
             <div class="col-md-8 col-xl-8 d-flex flex-column justify-content-around">
                 <div class="card-body">
@@ -23,7 +23,7 @@
                     <button class="btn btn-secondary mx-2" >
                         <i class="fa-solid fa-file-pen"></i> Edit
                     </button>
-                    <button class="btn btn-danger mx-2">
+                    <button class="btn btn-danger mx-2" @click="deleteAd(ad.id)">
                         <i class="fa-solid fa-trash"></i> Delete
                     </button>
                 </div>
@@ -34,6 +34,9 @@
 
 <script>
 import { IMG_BASE_URL } from '../../constants.js';
+import axios from '@/axios-auth.js';
+import Swal from "sweetalert2";
+
 
 export default {
     name: "MyAdAvailableItem",
@@ -49,6 +52,44 @@ export default {
         // closeAddAdModal() {
         //     this.showModal = false;
         // }
+        deleteAd(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'If you delete Ad You cannot retrieve it back!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.sendDeleteRequest(id)
+                        .then(response => {
+                            this.$emit('AdDeletedSuccessFully');
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                title: 'Something went wrong!',
+                                text: error,
+                                icon: 'error"'
+                            });
+                        });
+                }
+            });
+
+        },
+        sendDeleteRequest(id) {
+            return new Promise((resolve, reject) => {
+                axios.delete('/ads/' + id)
+                    .then((response) => {
+                        resolve();
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            });
+        }
     },
     data() {
         return {

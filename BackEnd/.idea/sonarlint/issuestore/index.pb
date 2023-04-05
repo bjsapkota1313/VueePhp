@@ -13,14 +13,10 @@ A
 app/composer.lock,c\3\c32263212f3e16c13caa4452876f2f6df8d19104
 A
 app/composer.json,c\d\cda2529fcd4a1b204404a4f545346869efacdb8e
-D
-app/models/Roles.php,d\a\daf72cf3b04338929daf511961d55e81e8782598
 a
 1app/models/Exceptions/FileManagementException.php,9\9\99c5b6b2db566a0def35e3aae01910fd9137e5de
 D
 app/Errors/error.log,6\f\6f287a0b9cb57e1a30052f3ff8aebe205f9092af
-E
-app/models/Status.php,d\8\d841f69365421055f2175d1a714cfb6031504703
 a
 1app/models/Exceptions/ObjectCreationException.php,f\f\ff83dd6e6a88b04d5171aefeaa71e9114c996c6b
 `
@@ -31,5 +27,3 @@ W
 'app/repositories/AbstractRepository.php,e\0\e01e249322189757f422453bf0f59a2a1f8ddb8f
 `
 0app/models/Exceptions/AlreadyExistsException.php,6\0\60372e9257cff3bc8de28c9cad169c1e88ae0936
-L
-app/services/userservice.php,8\8\885dc83e4cc7c08e12fd59e86659601160f5cac4

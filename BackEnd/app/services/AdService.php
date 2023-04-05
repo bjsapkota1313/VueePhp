@@ -68,6 +68,7 @@ class AdService
      */
     public function deleteAd($adID): bool
     {
+        $this->deleteAdImage($adID);
          return $this->adRepository->deleteAd($adID );
     }
     public function markAdAsSold($adId)
@@ -83,6 +84,18 @@ class AdService
     /**
      * @throws FileManagementException
      */
+    private function deleteAdImage($adID)
+    {
+        $presentAdImage = $this->adRepository->getCurrentImageUriByAdId($adID);
+        if(!empty($presentAdImage)){
+            $this->deleteImageFromDirectory(__DIR__ . "/../public" . $presentAdImage);
+        }
+
+    }
+
+    /**
+     * @throws FileManagementException
+     */
     private function saveImage($image): string
     {
         if($this->checkValidImageOrNot($image) === false){
@@ -90,7 +103,7 @@ class AdService
         }
         $uniqueName = $this->getUniqueImageNameByImageName($image);
         $this->moveImageToSpecifiedDirectory($image, __DIR__ . "/../public/img/" . $uniqueName);
-        return $uniqueName;
+        return "/img/".$uniqueName;
     }
 
 }

@@ -27,6 +27,7 @@ $router->get($base.'/ads/user', 'AdController@getAdsByUser');
 $router->post($base.'/users/login', 'UserController@login');
 $router->get($base.'/users', 'UserController@getAll');
 $router->post($base.'/users/register', 'UserController@create');
+$router->delete($base.'/users/(\d+)', 'UserController@delete');
 
 
 // Run it!

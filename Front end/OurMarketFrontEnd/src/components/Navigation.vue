@@ -17,14 +17,17 @@
                         <li class="nav-item">
                             <router-link class="nav-link mx-2" to="/myAds" active-class="active">My Ads</router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link mx-2" to="/UserManagement" active-class="active">User Management</router-link>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ms-auto  d-lg-inline-flex">
                         <li class="nav-item">
-                            <a class="nav-link mx-2" href="/home/shoppingCart">
+                            <RouterLink class="nav-link mx-2" to="/shoppingCart">
                                 <i class="fa-sharp fa-solid fa-cart-shopping fa-xl">  {{
                                         UseShoppingCartStore.getItemsCount
                                     }}</i>
-                            </a>
+                            </RouterLink>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"

@@ -89,21 +89,10 @@ class AdRepository extends AbstractRepository
         // it is update query so it will return true or false
     }
 
-    /**
-     * @throws FileManagementException
-     */
     public function deleteAd($adID): bool
     {
         $query = "DELETE FROM Ads  WHERE id= :adId";
-        $imageURI = $this->getCurrentImageUriByAdId($adID);
-        if (empty($imageURI)) {
-            throw new FileManagementException("Image Not Found For the AD ");
-        }
-        $result = $this->executeQueryAndGetResult($query, [":adId" => $adID]);
-        if (is_bool($result) && $result && !empty($imageURI)) {
-            return $this->deleteImageFile($imageURI);
-        }
-        return false;
+        return $this->executeQueryAndGetResult($query, [":adId" => $adID]); // it is update query so it will return true or false
     }
 
     /**
@@ -151,7 +140,7 @@ class AdRepository extends AbstractRepository
 
     }
 
-    private function getCurrentImageUriByAdId($adId)
+    public function getCurrentImageUriByAdId($adId)
     {
         $query = "SELECT imageURI FROM Ads WHERE id= :adId";
         $result = $this->executeQueryAndGetResult($query, [":adId" => $adId], false);
@@ -234,23 +223,6 @@ class AdRepository extends AbstractRepository
             throw  new FileManagementException("error occurred while deleting old  file ");
         } catch (Exception $e) {
             throw new FileManagementException("error occurred while editing file ");
-        }
-    }
-
-    /**
-     * @throws FileManagementException
-     */
-    private function deleteImageFile($imageUri): bool
-    {
-        try {
-            $targetDirectory = __DIR__ . '/../public';
-            if (unlink($targetDirectory . $imageUri)) {
-                return true;
-            }
-            return false;
-
-        } catch (Exception $e) {
-            throw new FileManagementException("error occurred while deleting file ");
         }
     }
     private function buildLimitOffsetClause($limit, $offset): ?array

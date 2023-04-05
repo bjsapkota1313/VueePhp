@@ -13,6 +13,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "pinia": "^2.0.32",
+    "sweetalert2": "^11.7.3",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },

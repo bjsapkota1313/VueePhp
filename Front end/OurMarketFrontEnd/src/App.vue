@@ -9,11 +9,14 @@
 import { useUserSessionStore } from './stores/userSession.js'
 import { RouterLink, RouterView } from 'vue-router';
 import Navigation from './components/Navigation.vue'
+import {UseShoppingCartStore} from "@/stores/ShoppingCart";
+
 
 export default {
   setup() {
     return {
       userSessionStore: useUserSessionStore(),
+      UseShoppingCartStore: UseShoppingCartStore()
     };
   },
   name: "App",
@@ -22,6 +25,7 @@ export default {
   }
   , mounted() {
     this.userSessionStore.localLogin();
+    this.UseShoppingCartStore.loadFromLocalStorage();
   },
 };
 </script>
