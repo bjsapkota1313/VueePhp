@@ -24,8 +24,8 @@ class AdController extends AbstractController implements InterfaceAPIController
 
     function getAll()
     {
-        $offset = NULL;
-        $limit = NULL;
+        $offset = null;
+        $limit = null;
 
         if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
             $offset = $_GET["offset"];
@@ -34,11 +34,13 @@ class AdController extends AbstractController implements InterfaceAPIController
             $limit = $_GET["limit"];
         }
         if (isset($_GET['name'])) {
-            return $this->handleSearchRequest($_GET['name'], $limit, $offset);
+            $this->handleSearchRequest($_GET['name'], $limit, $offset);
+            return;
+
         }
-        $ads = $this->adService->getAllAvailableAds( $limit, $offset);
+        $ads = $this->adService->getAllAvailableAds($limit, $offset);
         if (empty($ads)) {
-            return $this->respondWithError(404, "No ads found");
+            return $this->respondWithError(204, "No ads anymore");
         }
         $this->respond($ads);
 
@@ -50,14 +52,14 @@ class AdController extends AbstractController implements InterfaceAPIController
      */
     function getOne($id)
     {
-        try{
+        try {
             $ad = $this->adService->getAdByID($id);
             if (empty($ad)) {
                 $this->respondWithError(404, "Ad not found");
             } else {
                 $this->respond($ad);
             }
-        }catch (InternalErrorException | ObjectCreationException $e){
+        } catch (InternalErrorException|ObjectCreationException $e) {
             $this->respondWithError(500, "Something went wrong while fetching the ad");
         }
     }
@@ -92,7 +94,7 @@ class AdController extends AbstractController implements InterfaceAPIController
             if ($this->adService->deleteAd($id)) {
                 $this->respond(true);
             } else {
-                $this->respondWithError(500, "Ad not deleted");
+                $this->respondWithError(500, "Internal Error ");
             }
         } catch (InternalErrorException $e) {
             $this->respondWithError(503, "Ad not deleted");
@@ -101,13 +103,14 @@ class AdController extends AbstractController implements InterfaceAPIController
         }
     }
 
-    private function handleSearchRequest($name, $limit, $offset): ?array
+    private function handleSearchRequest($name, $limit, $offset): void
     {
         $ads = $this->adService->searchAdsByProductName($name, $limit, $offset);
         if (empty($ads)) {
-            return $this->respondWithError(404, "No ads found with this name {$name}");
+            $this->respondWithError(404, "No ads found with this name {$name}");
+            return;
         }
-        return $this->respond($ads);
+        $this->respond($ads);
     }
 
     function update($id)
@@ -116,7 +119,7 @@ class AdController extends AbstractController implements InterfaceAPIController
         if (empty($token)) {
             return;
         }
-        if(empty($adDetails->status)){
+        if (empty($adDetails->status)) {
 
         }
         echo print_r($adDetails);
@@ -125,9 +128,6 @@ class AdController extends AbstractController implements InterfaceAPIController
 //        echo print_r($adDetails);
     }
 
-    /**
-     * @throws ObjectCreationException
-     */
     public function getAdsByUser()
     {
         $offset = NULL;
@@ -145,14 +145,15 @@ class AdController extends AbstractController implements InterfaceAPIController
             return;
         }
         try {
-            $ads = $this->adService->getAdsByUser($token->data->id, $offset, $limit);
+            $ads = $this->adService->getAdsByUser($token->data->id, $limit, $offset);
         } catch (InternalErrorException $e) {
             $this->respondWithError(500, "Something went wrong");
         }
         if (empty($ads)) {
             $this->respondWithCode(204, null);
-        } else {
-            $this->respond($ads);
+            return;
         }
+        $this->respond($ads);
+
     }
 }

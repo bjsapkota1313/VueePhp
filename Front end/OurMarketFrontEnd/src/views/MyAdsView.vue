@@ -57,7 +57,7 @@ export default {
     methods: {
         adAddedSuccessFully() {
             this.closeAddAdModal();
-            this.$refs.MyAdsList.loadAds();
+            this.$refs.MyAdsList.loadAds(); // calling the method in MyAdsList component
         },
         openAddAdModal() {
             this.showModal = true;

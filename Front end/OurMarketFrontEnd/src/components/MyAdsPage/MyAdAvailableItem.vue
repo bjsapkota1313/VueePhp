@@ -14,24 +14,30 @@
                         </li>
                         <li class="list-group-item"><strong>Status:</strong> {{ ad.status }}</li>
                         <li class="list-group-item"><strong>Posted at: </strong> {{
-                            new
-                            Date(ad.postedDate.date).toLocaleDateString()
+
+                            new Date(ad.postedDate.date).toLocaleDateString()
                             }}
                         </li>
-
                     </ul>
                 </div>
                 <div class="d-flex justify-content-end mb-2">
                     <button class="btn btn-primary mx-2" @click="markAsSold(ad.id)">
                         Mark As Sold
                     </button>
-                    <button class="btn btn-secondary mx-2">
+                    <button class="btn btn-secondary mx-2" @click="editButtonClick(ad.id)">
                         <i class="fa-solid fa-file-pen"></i> Edit
                     </button>
                     <button class="btn btn-danger mx-2" @click="deleteAd(ad.id)">
                         <i class="fa-solid fa-trash"></i> Delete
                     </button>
                 </div>
+                <div v-if="selectedAdId!==0">
+                    <EditAdModal v-show="showModal"
+                                 :adId="selectedAdId"
+                                 @closeModal="closeEditAdModal"
+                    ></EditAdModal>
+                </div>
+
             </div>
         </div>
     </div>
@@ -41,6 +47,7 @@
 import {IMG_BASE_URL} from '../../constants.js';
 import axios from '@/axios-auth.js';
 import Swal from "sweetalert2";
+import EditAdModal from "./EditAdModal.vue";
 
 
 export default {
@@ -50,13 +57,18 @@ export default {
             type: Object
         }
     },
+    components: {
+        EditAdModal
+    },
+    data() {
+        return {
+            fullImageUrl: IMG_BASE_URL,
+            showModal: false,
+            selectedAdId: 0,
+            modalActive: false
+        }
+    },
     methods: {
-        // showAddAdModal() {
-        //     this.showModal = true;
-        // },
-        // closeAddAdModal() {
-        //     this.showModal = false;
-        // }
         deleteAd(id) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -103,7 +115,7 @@ export default {
             this.sendPutRequest(id, adStatus)
                 .then(response => {
                     console.log(response);
-                  //  this.$emit('AdMarkedAsSoldSuccessFully');
+                    //  this.$emit('AdMarkedAsSoldSuccessFully');
                 })
                 .catch(error => {
                     Swal.fire({
@@ -124,14 +136,29 @@ export default {
                         reject(error);
                     });
             });
+        },
+        closeEditAdModal() {
+            this.showModal = false;
+            this.updateModalActive()
+        },
+        openEditAdModal() {
+            this.showModal = true;
+            this.updateModalActive();
+        },
+        updateModalActive() {
+            this.modalActive = this.showModal;
+            if (this.modalActive) { // preventing scrolling when modal is open
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        },
+        editButtonClick(id) {
+            this.selectedAdId = id;
+            this.openEditAdModal();
         }
     },
-    data() {
-        return {
-            fullImageUrl: IMG_BASE_URL,
-            showModal: false
-        }
-    }
+
 }
 </script>
 
