@@ -32,7 +32,7 @@
                     </button>
                 </div>
                 <div v-if="selectedAdId!==0">
-                    <EditAdModal v-show="showModal"
+                    <EditAdModal v-if="showModal"
                                  :adId="selectedAdId"
                                  @closeModal="closeEditAdModal"
                     ></EditAdModal>

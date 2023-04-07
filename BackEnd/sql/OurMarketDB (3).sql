@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Jan 21, 2023 at 01:04 PM
+-- Generation Time: Mar 27, 2023 at 09:45 AM
 -- Server version: 10.9.4-MariaDB-1:10.9.4+maria~ubu2204
 -- PHP Version: 8.0.25
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `OurMarketDB`
 --
-CREATE DATABASE IF NOT EXISTS `OurMarketDB` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `OurMarketDB`;
 
 -- --------------------------------------------------------
 
@@ -70,18 +68,19 @@ CREATE TABLE `Users` (
   `lastName` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `HashPassword` varchar(255) NOT NULL,
-  `Salt` varchar(255) NOT NULL
+  `Salt` varchar(255) NOT NULL,
+  `Role` enum('Admin','Customer') NOT NULL DEFAULT 'Customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `Users`
 --
 
-INSERT INTO `Users` (`id`, `firstName`, `lastName`, `email`, `HashPassword`, `Salt`) VALUES
-(1, 'Test', 'Inholland', 'test@inholland.nl', '$argon2i$v=19$m=65536,t=4,p=1$N1RxQVBSOFowY0hlY09LLg$Rqrkc89iZO5Y4eM8ZfLQxiVYq4ivqo39d+d+Ru5Z/SI', '355d378154265e840889f2a394337f9061b68dac95f1331d6b4ba562ac0a56a1'),
-(2, 'Bijay', 'Sapkota', 'bijay@inholland.nl', '$argon2i$v=19$m=65536,t=4,p=1$RmNaaEt1dDVNNXZQZFhiaA$iJ69sxER++TaC40D1VrpQdCMNb2o8cUZuW1uc6x0n3Y', 'defb4a15b13f74b82bab20461ab6ff4508886f92ade08431db5a9b241853d1cf'),
-(3, 'Durga Devi', 'Sapkota', 'Durga@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$Y1ZGdzl5UTZ5dVRvWThDYw$w3isE1URIXsowejxrO7VlnyaN4ru1IfJw1ZF5UTK8Wc', '845ec4e7be54c9b75906bc797df2a276e620e09e7eef436e90528a831c897230'),
-(4, 'Muna', 'Kandel', 'Muna@inholland.nl', '$argon2i$v=19$m=65536,t=4,p=1$Nktxay9RUUpqNUl0Z3ZiSw$Ol7kNEd1CbQXWi5kO7Kq+EMGe3emQDZ2XsGdKDxSv1Y', '18f9edfefb4f4e991e5ea215fcfc500ee6d89e89dcf5a49d24893a4b305dcb14');
+INSERT INTO `Users` (`id`, `firstName`, `lastName`, `email`, `HashPassword`, `Salt`, `Role`) VALUES
+(1, 'Test', 'Inholland', 'test@inholland.nl', '$argon2i$v=19$m=65536,t=4,p=1$N1RxQVBSOFowY0hlY09LLg$Rqrkc89iZO5Y4eM8ZfLQxiVYq4ivqo39d+d+Ru5Z/SI', '355d378154265e840889f2a394337f9061b68dac95f1331d6b4ba562ac0a56a1', 'Admin'),
+(2, 'Bijay', 'Sapkota', 'bijay@inholland.nl', '$argon2i$v=19$m=65536,t=4,p=1$RmNaaEt1dDVNNXZQZFhiaA$iJ69sxER++TaC40D1VrpQdCMNb2o8cUZuW1uc6x0n3Y', 'defb4a15b13f74b82bab20461ab6ff4508886f92ade08431db5a9b241853d1cf', 'Admin'),
+(3, 'Durga Devi', 'Sapkota', 'Durga@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$Y1ZGdzl5UTZ5dVRvWThDYw$w3isE1URIXsowejxrO7VlnyaN4ru1IfJw1ZF5UTK8Wc', '845ec4e7be54c9b75906bc797df2a276e620e09e7eef436e90528a831c897230', 'Admin'),
+(4, 'Muna', 'Kandel', 'Muna@inholland.nl', '$argon2i$v=19$m=65536,t=4,p=1$Nktxay9RUUpqNUl0Z3ZiSw$Ol7kNEd1CbQXWi5kO7Kq+EMGe3emQDZ2XsGdKDxSv1Y', '18f9edfefb4f4e991e5ea215fcfc500ee6d89e89dcf5a49d24893a4b305dcb14', 'Admin');
 
 --
 -- Indexes for dumped tables

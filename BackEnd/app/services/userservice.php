@@ -24,7 +24,7 @@ class UserService
     /**
      * @throws NotFoundException
      */
-    public function verifyAndGetUser($email, $password)
+    public function verifyAndGetUser($email, $password): ?\Models\User
     {
         return $this->repository->verifyAndGetUser($email, $password);
     }

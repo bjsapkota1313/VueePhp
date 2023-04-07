@@ -56,7 +56,7 @@ export default {
         removeItem(id) {
             this.UseShoppingCartStore.removeAd(id);
             this.$emit('removeItemSuccessfully');
-        }
+        },
     }
 
 }

@@ -155,23 +155,14 @@ class AdRepository extends AbstractRepository
     /**
      * @throws InternalErrorException|FileManagementException
      */
-    public function editAd($newImage, $productName, $description, $price, $adID)
+    public function editAd($adDetails, $adID)
     {
-        $dbStoredName;
-        if (!isset($dbStoredName)) {
-            $dbStoredName = $this->getCurrentImageUriByAdId($adID);
-        }
-        $storingImageUri = $this->editImageFile($dbStoredName, $newImage);
-        if (is_null($storingImageUri)) {
-            throw  new FileManagementException("No Image file Found For previous Image");
-        }
-        $query = "UPDATE Ads SET productName = :productName ,description = :description ,price = :price ,imageURI =:imageURI WHERE id = :id";
+        $query = "UPDATE Ads SET productName = :productName ,description = :description ,price = :price  WHERE id = :id";
         $parameters = [
-            ":productName" => $productName,
-            ":description" => $description,
-            ":price" => $price,
+            ":productName" => $adDetails->productName,
+            ":description" => $adDetails->description,
+            ":price" => $adDetails->price,
             ":id" => $adID,
-            ":imageURI" => $storingImageUri
         ];
         $result = $this->executeQueryAndGetResult($query, $parameters); // it is update query so it will return true or false
         return is_bool($result) ? $result : throw  new InternalErrorException("Something went wrong  in App while updating ad");
@@ -233,6 +224,4 @@ class AdRepository extends AbstractRepository
         }
         return null;
     }
-
-
 }

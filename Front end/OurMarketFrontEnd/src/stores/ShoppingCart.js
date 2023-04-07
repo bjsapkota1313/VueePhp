@@ -6,12 +6,13 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
     state: () => ({
         adIds: [],
         ads: [],
-        totalPrice: 0
+        totalPrice: 0,
 
     }),
     getters: {
         getAds: (state) => state.ads,
-        getItemsCount: (state) => state.ads.length,
+        getItemsCount: (state) => state.adIds.length,
+        getAdsIds: (state) => state.adIds,
         getTotalPrice: (state) => {
             let totalPrice = 0;
             state.ads.forEach((ad) => {

@@ -35,7 +35,8 @@
                             <p class="mb-2">
                                 €{{ total.toFixed(2) }}</p>
                         </div>
-                        <button name="buttonCheckOut" type="submit" class="btn  btn-block btn-lg d-sm-block float-right"
+                        <button name="buttonCheckOut" type="button"
+                                class="btn  btn-block btn-lg d-sm-block float-right" @click="checkout"
                                 style="float: right !important; background-color:#00ff00;">
                             <div class="d-flex">
                                 <span>Checkout €{{ total.toFixed(2) }} <i
@@ -64,6 +65,8 @@
 <script>
 import ShoppingCartItem from "./ShoppingCartItem.vue";
 import {UseShoppingCartStore} from "@/stores/ShoppingCart";
+import axios from '@/axios-auth.js';
+import Swal from "sweetalert2";
 
 export default {
     name: "ShoppingCartItemList",
@@ -97,6 +100,43 @@ export default {
         },
         removeItemSuccessfully() {
             this.loadShoppingCartItems();
+        },
+        checkout() {
+            this.sendPostRequest();
+        },
+        sendPostRequest() {
+            axios.post('/ads/checkout', this.UseShoppingCartStore.getAdsIds)
+                .then(response => {
+                    this.UseShoppingCartStore.clearCart();
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Your order has been placed successfully!',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }) .then((result) => {
+                        if (result.isConfirmed) {
+                            this.$router.push('/');
+                        }
+                    })
+                })
+                .catch(error => {
+                    if(error.response.status === 404) {
+                      Swal.fire({
+                        title: 'Error!',
+                        text: error.response.data.errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                      }) .then((result) => {
+                        if (result.isConfirmed) {
+                          this.UseShoppingCartStore.clearCart();
+                          this.$router.push('/');
+                        }
+                      })
+                    }
+                    else{
+                        console.log(error.response.data.errorMessage);
+                    }
+                });
         }
     }
 

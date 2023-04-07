@@ -5,6 +5,7 @@ namespace Controllers;
 use Controllers\AbstractController;
 use Models\Exceptions\FileManagementException;
 use Models\Exceptions\InternalErrorException;
+use Models\Exceptions\NotFoundException;
 use Models\Exceptions\ObjectCreationException;
 use Models\Exceptions\UnsupportedFile;
 use Models\InterfaceAPIController;
@@ -12,6 +13,7 @@ use mysql_xdevapi\Exception;
 use Services\AdService;
 use Models\Ad;
 use DateTime;
+use SplFileObject;
 
 class AdController extends AbstractController implements InterfaceAPIController
 {
@@ -71,9 +73,8 @@ class AdController extends AbstractController implements InterfaceAPIController
             return;
         }
         $adDetails = $this->sanitize(json_decode($_POST['adDetails']));
-        $adImage = $_FILES['adImage'];
         $adDetails->userId = $token->data->id;
-        $adDetails->image = $adImage;
+        $adDetails->image = $_FILES['adImage'];
         try {
             $createdAd = $this->adService->createNewAd($adDetails);
             if (!empty($createdAd)) {
@@ -119,13 +120,18 @@ class AdController extends AbstractController implements InterfaceAPIController
         if (empty($token)) {
             return;
         }
-        if (empty($adDetails->status)) {
-
+        parse_str(file_get_contents('php://input'), $_PUT);
+        $adDetails = $this->sanitize(json_decode($_PUT['adDetails']));
+        try {
+            $isAdUpdated = $this->adService->editAdWithNewDetails( $adDetails, $id);
+            if ($isAdUpdated) {
+                $this->respond(true);
+            }
+            $this->respondWithError(500, "Something went wrong while updating the ad");
+        } catch (InternalErrorException  | FileManagementException $e) {
+            $this->respondWithError(500, "Something went wrong while updating the ad");
         }
-        echo print_r($adDetails);
-//        $adDetails = $this->sanitize($_POST['adDetails']);
-//        $adImage = $_FILES['adImage'];
-//        echo print_r($adDetails);
+
     }
 
     public function getAdsByUser()
@@ -156,4 +162,34 @@ class AdController extends AbstractController implements InterfaceAPIController
         $this->respond($ads);
 
     }
+
+    private function getImageFileFromStringEncoded($imageData)
+    {
+        // Create a temporary file and write the image data to it
+        $tmpFile = tmpfile();
+        fwrite($tmpFile, base64_decode($imageData));
+
+        // Get the metadata of the temporary file
+        $metaData = stream_get_meta_data($tmpFile);
+        $tmpFilePath = $metaData['uri'];
+
+        // Open the temporary file for reading and return it
+        return fopen($tmpFilePath, 'rb');
+    }
+    public function checkOut()
+    {
+        $adsIds= $this->getSanitizedData();
+        try{
+            $this->adService->checkOut($adsIds);
+            $this->respond(true);
+        }
+        catch(InternalErrorException $e){
+            $this->respondWithError(500, "Something went wrong");
+        } catch (NotFoundException $e) {
+            $this->respondWithError(404, $e->getMessage());
+        }
+    }
+
+
+
 }

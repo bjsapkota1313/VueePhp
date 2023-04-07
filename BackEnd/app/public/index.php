@@ -22,6 +22,7 @@ $router->post($base.'/ads', 'AdController@create');
 $router->put($base.'/ads/(\d+)', 'AdController@update');
 $router->delete($base.'/ads/(\d+)', 'AdController@delete');
 $router->get($base.'/ads/user', 'AdController@getAdsByUser');
+$router->post($base.'/ads/checkout', 'AdController@checkOut');
 
 // routes for the users endpoint
 $router->post($base.'/users/login', 'UserController@login');
