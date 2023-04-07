@@ -1,0 +1,4 @@
+
+g	php:S1192"KDefine a constant instead of duplicating this literal "/ads/(\d+)" 3 times.(ª±ûğ8„Šæãõ0
+G	php:S2003	"&Replace "require" with "require_once".(İÅŞèøÿÿÿÿ8†Šæãõ0
+m	php:S4833	"LReplace "require" with namespace import mechanism through the "use" keyword.(İÅŞèøÿÿÿÿ8†Šæãõ0

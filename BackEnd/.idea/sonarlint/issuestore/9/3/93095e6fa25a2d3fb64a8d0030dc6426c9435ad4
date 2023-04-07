@@ -1,0 +1,9 @@
+
+kphp:S103"KSplit this 123 characters long line (which is greater than 120 authorized).(”ß½ÿÿÿÿÿ8ËÁµäõ0
+ephp:S103"KSplit this 140 characters long line (which is greater than 120 authorized).(‘Ç™8ÎÁµäõ0
+ephp:S1032"KSplit this 140 characters long line (which is greater than 120 authorized).(‘Ç™8Üù¶äõ0
+kphp:S103<"KSplit this 143 characters long line (which is greater than 120 authorized).(õ²Í…úÿÿÿÿ8Üù¶äõ0
+kphp:S103^"KSplit this 148 characters long line (which is greater than 120 authorized).(ÁàŠƒûÿÿÿÿ8Üù¶äõ0
+e	php:S1784"DExplicitly mention the visibility of this method "verifyAndGetUser".(ª‡´Îûÿÿÿÿ8ÎÁµäõ0
+d	php:S1192h"HDefine a constant instead of duplicating this literal ":userId" 3 times.(¨ô˜´8İù¶äõ0
+h	php:S1192"GDefine a constant instead of duplicating this literal ":email" 4 times.(©ß†Æıÿÿÿÿ8ÏÁµäõ0

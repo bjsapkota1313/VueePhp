@@ -1,0 +1,11 @@
+
+R	php:S1808@"=Move this open curly brace to the beginning of the next line.(Ÿà‹ù
+d	php:S18087"JPut one space between the closing parenthesis and the opening curly brace.(”ë¸Ÿúÿÿÿÿ
+_	php:S1808N"JPut one space between the closing parenthesis and the opening curly brace.(ÿš¡ì
+_	php:S1808b"JPut one space between the closing parenthesis and the opening curly brace.(Î´ñè
+P	php:S1808C"6Put exactly one space after comma separated arguments.(ÁÓæûÿÿÿÿ
+W	php:S1808E"6Put exactly one space after comma separated arguments.(à…«ğşÿÿÿÿ8ñÈäõ0
+W	php:S1808d"6Put exactly one space after comma separated arguments.(¡Â€Ëÿÿÿÿÿ8øõäõ0
+^	php:S18087"DPut one space between this "if" keyword and the opening parenthesis.(”ë¸Ÿúÿÿÿÿ
+Y	php:S1808N"DPut one space between this "if" keyword and the opening parenthesis.(ÿš¡ì
+Y	php:S1808b"DPut one space between this "if" keyword and the opening parenthesis.(Î´ñè

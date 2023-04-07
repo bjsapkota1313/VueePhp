@@ -1,0 +1,14 @@
+
+\	php:S1131 "@Remove the useless trailing whitespaces at the end of this line.(×„Õ÷8‰¿çõ0
+\	php:S1131E"@Remove the useless trailing whitespaces at the end of this line.(×„Õ÷8Š¿çõ0
+ephp:S103a"KSplit this 129 characters long line (which is greater than 120 authorized).(“£…k8Š¿çõ0
+ephp:S103"KSplit this 148 characters long line (which is greater than 120 authorized).(ô¼ÿ8Š¿çõ0
+gphp:S103®"KSplit this 125 characters long line (which is greater than 120 authorized).(ì¦ì8Š¿çõ0
+lphp:S103¯"KSplit this 128 characters long line (which is greater than 120 authorized).(‚Âúÿÿÿÿ8Š¿çõ0
+f	php:S1808¡"DPut one space between this "if" keyword and the opening parenthesis.(ÓÍÜøÿÿÿÿ8İŒìçõ0
+f	php:S1808«"DPut one space between this "if" keyword and the opening parenthesis.(ÓÍÜøÿÿÿÿ8İŒìçõ0
+J	php:S1781")Write this "NULL" constant in lower case.(ğªûÿÿÿÿ8Š¿çõ0
+J	php:S1781")Write this "NULL" constant in lower case.(ğªûÿÿÿÿ8Š¿çõ0
+b	php:S11929"FDefine a constant instead of duplicating this literal ":adId" 4 times.(¿ŸèÓ8Š¿çõ0
+d	php:S1192""HDefine a constant instead of duplicating this literal ":status" 3 times.(óæï£8Š¿çõ0
+o	php:S1192"MDefine a constant instead of duplicating this literal ":productName" 3 times.(Ş×åÕüÿÿÿÿ8Š¿çõ0

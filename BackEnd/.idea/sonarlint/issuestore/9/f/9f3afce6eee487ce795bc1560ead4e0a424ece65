@@ -1,0 +1,11 @@
+
+h	php:S1808."GMove this "catch" to the same line as the previous closing curly brace.(µõëåûÿÿÿÿ8Şº¹èõ0
+k	php:S1808."JPut one space between the closing parenthesis and the opening curly brace.(µõëåûÿÿÿÿ8àº¹èõ0
+W	php:S1808/"6Put exactly one space after comma separated arguments.(ÓÄøÉüÿÿÿÿ8àº¹èõ0
+f	php:S1808+"EPut one space between this "try" keyword and the opening curly brace.(¡»¢üùÿÿÿÿ8ÊÂ¸èõ0
+V	php:S1784":Explicitly mention the visibility of this method "getAll".(ığ»•8Àî´èõ0
+V	php:S17848":Explicitly mention the visibility of this method "getOne".(‹§ÆÁ8Àî´èõ0
+V	php:S1784F":Explicitly mention the visibility of this method "create".(¢ÑÏ™8Àî´èõ0
+[	php:S1784^":Explicitly mention the visibility of this method "delete".(½À€Äúÿÿÿÿ8Àî´èõ0
+\	php:S1784€":Explicitly mention the visibility of this method "update".(ıÀ¨ìûÿÿÿÿ8Àî´èõ0
+P	php:S3801"4Refactor this function to use "return" consistently.(ığ»•8Àî´èõ0

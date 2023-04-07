@@ -1,0 +1,12 @@
+
+dphp:S103"KSplit this 121 characters long line (which is greater than 120 authorized).(£ÿóÈúÿÿÿÿ
+dphp:S103A"KSplit this 129 characters long line (which is greater than 120 authorized).(ðšÏ§ÿÿÿÿÿ
+dphp:S103I"KSplit this 128 characters long line (which is greater than 120 authorized).(àâ¨žùÿÿÿÿ
+f	php:S18083"JPut one space between the closing parenthesis and the opening curly brace.(ØÚßó8ìÊ”äõ0
+`	php:S18083"DPut one space between this "if" keyword and the opening parenthesis.(ØÚßó8ìÊ”äõ0
+[	php:S18089"FPut one space between this "else" keyword and the opening curly brace.(å¥ž‡
+^	php:S1784"DExplicitly mention the visibility of this constructor "__construct".(‡¸Úœùÿÿÿÿ
+Q	php:S1142G"<This method has 4 returns, which is more than the 3 allowed.(Š¬ñý
+;	php:S2003"&Replace "require" with "require_once".(ª«–¢
+P	php:S1793("<Replace this "else if" keyword sequence by "elseif" keyword.(Äàÿa
+a	php:S4833"LReplace "require" with namespace import mechanism through the "use" keyword.(ª«–¢

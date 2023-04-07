@@ -64,7 +64,8 @@ export default {
         },
         loadsUsers() {
             try {
-                this.getUsers().then((users) => {
+                this.getUsers().then(
+                    (users) => {
                     this.users = users;
                 });
             } catch (error) {
