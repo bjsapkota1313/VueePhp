@@ -40,14 +40,7 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
                         this.saveInLocalStorage();
                     }
                 ).catch((error) => {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: error,
-                    text: error,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                console.log(error);
             });
         },
         removeAd(adId) {
