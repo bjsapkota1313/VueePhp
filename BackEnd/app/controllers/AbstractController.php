@@ -55,7 +55,7 @@ abstract class AbstractController  //TODO: not every class should have the inter
     protected function getSanitizedData()
     {
         $json = file_get_contents('php://input');
-        $data = json_decode($json,true);
+        $data = json_decode($json);
         return $this->sanitize($data);
     }
 

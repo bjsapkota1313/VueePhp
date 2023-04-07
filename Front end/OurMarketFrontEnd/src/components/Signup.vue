@@ -10,28 +10,28 @@
                                 <div class="form-group col-12 ">
                                     <label class="form-label" for="FirstName">Your First Name</label>
                                     <input type="text" v-model="firstName" class="form-control form-control-lg"
-                                        autocomplete="first-name" required />
+                                           autocomplete="first-name" required/>
                                 </div>
                                 <div class="form-group col-12 ">
                                     <label class="form-label is-invalid" for="LastName">Your Last Name</label>
                                     <input type="text" v-model="lastName" class="form-control form-control-lg"
-                                        autocomplete="last-name" required />
+                                           autocomplete="last-name" required/>
                                 </div>
                                 <div class="form-group col-12">
                                     <label class="form-label" for="Email">Your Email</label>
                                     <input type="email" v-model="email" class="form-control form-control-lg"
-                                        autocomplete="email" required />
+                                           autocomplete="email" required/>
                                 </div>
                                 <div class="form-group col-12">
                                     <label class="form-label" for="password">Password</label>
                                     <input type="password" v-model="password" class="form-control form-control-lg"
-                                        autocomplete="new-password" required />
+                                           autocomplete="new-password" required/>
                                     <div id="feedback-invalid-pass"></div>
                                 </div>
                                 <div class="form-group col-12">
                                     <label class="form-label" for="RepeatPassword"> Repeat your password</label>
                                     <input type="password" v-model="repeatPassword" class="form-control form-control-lg"
-                                        autocomplete="new-password" required />
+                                           autocomplete="new-password" required/>
                                 </div>
                                 <div class="alert alert-danger mt-2" role="alert" v-if="error">
                                     {{ error }}
@@ -42,10 +42,11 @@
                                     </button>
                                 </div>
                                 <div class="d-flex justify-content-center pt-3">
-                                    <router-link to="/" class="w-100 btn btn-lg btn-secondary"> Cancel </router-link>
+                                    <router-link to="/" class="w-100 btn btn-lg btn-secondary"> Cancel</router-link>
                                 </div>
-                                <p class="text-center text-muted mt-5 mb-0">Have already an account? <RouterLink to="/login"
-                                        class="fw-link"><u>Login Here</u></RouterLink>
+                                <p class="text-center text-muted mt-5 mb-0">Have already an account?
+                                    <RouterLink to="/login"
+                                                class="fw-link"><u>Login Here</u></RouterLink>
                                 </p>
                             </div>
                         </div>
@@ -58,8 +59,16 @@
 
 <script>
 import axios from '@/axios-auth.js'
+import {useUserSessionStore} from "@/stores/UserSession";
+import Swal from "sweetalert2";
+
 export default {
     name: 'Signup',
+    setup() {
+        return {
+            userSessionStore: useUserSessionStore(),
+        }
+    },
     data() {
         return {
             firstName: '',
@@ -89,9 +98,16 @@ export default {
                 return;
             }
             this.sendPostRequest()
-            .then((createdUser) => {
-               this.$router.push('/myads');
-            }).catch((error) => {
+                .then((createdUser) => {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'You have successfully registered!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        this.$router.push('/');
+                    });
+                }).catch((error) => {
                 this.error = error;
             });
         },
@@ -128,7 +144,7 @@ export default {
 }
 </script>
 
-<style  scoped>
+<style scoped>
 .full {
     height: 100vh;
 }
