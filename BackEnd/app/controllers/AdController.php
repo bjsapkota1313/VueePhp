@@ -120,24 +120,27 @@ class AdController extends AbstractController implements InterfaceAPIController
         if (empty($token)) {
             return;
         }
-        parse_str(file_get_contents('php://input'), $_PUT);
-        $adDetails = $this->sanitize(json_decode($_PUT['adDetails']));
+        // Retrieve the request body
+        $requestBody = file_get_contents('php://input');
+        parse_str($requestBody, $requestParams);
+
+        $adDetails = $this->sanitize(json_decode($requestParams['adDetails']));
+        if (!empty($requestParams['image'])) {
+            $adDetails->image = $requestParams['image'];
+        }
         try {
-            $isAdUpdated = $this->adService->editAdWithNewDetails( $adDetails, $id);
-            if ($isAdUpdated) {
-                $this->respond(true);
-            }
-            $this->respondWithError(500, "Something went wrong while updating the ad");
-        } catch (InternalErrorException  | FileManagementException $e) {
+            $this->adService->editAdWithNewDetails($adDetails, $id);
+            $this->respond(true);
+        } catch (InternalErrorException|FileManagementException $e) {
             $this->respondWithError(500, "Something went wrong while updating the ad");
         }
-
     }
+
 
     public function getAdsByUser()
     {
-        $offset = NULL;
-        $limit = NULL;
+        $offset = null;
+        $limit = null;
 
         if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
             $offset = $_GET["offset"];
@@ -163,33 +166,28 @@ class AdController extends AbstractController implements InterfaceAPIController
 
     }
 
-    private function getImageFileFromStringEncoded($imageData)
-    {
-        // Create a temporary file and write the image data to it
-        $tmpFile = tmpfile();
-        fwrite($tmpFile, base64_decode($imageData));
 
-        // Get the metadata of the temporary file
-        $metaData = stream_get_meta_data($tmpFile);
-        $tmpFilePath = $metaData['uri'];
-
-        // Open the temporary file for reading and return it
-        return fopen($tmpFilePath, 'rb');
-    }
     public function checkOut()
     {
-        $adsIds= $this->getSanitizedData();
-        try{
+        $adsIds = $this->getSanitizedData();
+        try {
             $this->adService->checkOut($adsIds);
             $this->respond(true);
-        }
-        catch(InternalErrorException $e){
+        } catch (InternalErrorException $e) {
             $this->respondWithError(500, "Something went wrong");
         } catch (NotFoundException $e) {
             $this->respondWithError(404, $e->getMessage());
         }
     }
-
-
-
+    public function markAdAsSold($id)
+    {
+        try {
+            $this->adService->markAdAsSold($id);
+            $this->respond(true);
+        } catch (InternalErrorException $e) {
+            $this->respondWithError(500, "Something went wrong");
+        } catch (NotFoundException $e) {
+            $this->respondWithError(404, $e->getMessage());
+        }
+    }
 }

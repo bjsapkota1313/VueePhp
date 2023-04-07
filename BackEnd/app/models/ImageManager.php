@@ -103,5 +103,22 @@ trait ImageManager
         $this->moveImageToSpecifiedDirectory($newImage, $directory . $currentImageName);
     }
 
+    /**
+     * @throws FileManagementException
+     */
+    function makeImageFromBase64($imageData,$imageName): void
+    { //imageName will come without Extension
+        $imageFormat = explode(',', $imageData)[0];
+        $replacingImageFormat = $imageFormat . ','; //replace the image format
+        $decodedImage = base64_decode(str_replace($replacingImageFormat, '', $imageData));
+        $imageExtension=explode(';', explode('/', $imageFormat)[1])[0];
+        if($imageExtension != "jpg" && $imageExtension != "png" && $imageExtension != "jpeg"){
+            throw new FileManagementException("Invalid Image Format");
+        }
+        $imageName = $imageName . '.' . $imageExtension;
+        file_put_contents( $imageName, $decodedImage);
+    }
+
+
 
 }

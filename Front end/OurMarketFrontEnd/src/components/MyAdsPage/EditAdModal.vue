@@ -83,36 +83,43 @@ export default {
         }
     },
     methods: {
-
-        saveChange() {
+        async saveChange() {
             if (!this.validateForm()) {
                 return;
             }
-            let formData = new  URLSearchParams();
+            let formData = new URLSearchParams();
             let adDetails = {
                 productName: this.productName,
                 price: this.price,
                 description: this.description
             }
             formData.append('adDetails', JSON.stringify(adDetails));
-            formData.append('image', this.image);
+            if (this.image !== null) {
+                formData.append('image', await this.getImageBase64());
+            }
             this.sendPutRequest(formData);
         },
+        getImageBase64() {
+            return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.readAsDataURL(this.image);
+                reader.onload = (e) => {
+                    resolve(e.target.result);
+                };
+                reader.onerror = (e) => {
+                    reject(e);
+                };
+            });
+        }
+        ,
         sendPutRequest(formData) {
-            axios.put('/ads/' + this.adId, formData.toString(),
-                {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                })
+            axios.put('/ads/' + this.adId, formData)
                 .then(response => {
-                    console.log(response);
+                   this.$emit('editedSuccessfully');
                 })
                 .catch(error => {
                     console.log(error);
                 });
-
-
         },
         validateForm() {
             if (this.productName === '') {

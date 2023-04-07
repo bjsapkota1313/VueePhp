@@ -3,7 +3,9 @@
         <MyAdAvailableItem v-for="(ad, index) in availableAds"
                            :key="index" :ad="ad"
                            @AdDeletedSuccessFully="adDeletedSuccessFully"
-                           @adMarkedAsSoldSuccessFully="loadAds"/>
+                           @adMarkedAsSoldSuccessFully="loadAds"
+                           @adEditedSuccessFully="loadAds"
+        />
         <MyAdOtherStatusItem v-for="(ad, index) in otherStatusAds" :key="index" :ad="ad"/>
     </div>
     <div class="container ml-2 " v-else>

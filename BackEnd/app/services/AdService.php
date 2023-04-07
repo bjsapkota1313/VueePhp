@@ -88,9 +88,12 @@ class AdService
      * @throws FileManagementException
      * @throws InternalErrorException
      */
-    public function editAdWithNewDetails($adDetails, $adId): bool
+    public function editAdWithNewDetails($adDetails, $adId): void
     {
-        return $this->adRepository->editAd($adDetails, $adId);
+        if(!empty($adDetails->image)){
+            $this->processImage($adId,$adDetails->image);
+        }
+        $this->adRepository->editAd($adDetails, $adId);
     }
 
     /**
@@ -145,6 +148,21 @@ class AdService
         foreach ($adIds as $adId){ // when no error is thrown then mark all ads as sold
             $this->markAdAsSold($adId);
         }
+    }
+
+    /**
+     * @throws InternalErrorException
+     * @throws FileManagementException
+     */
+    private function processImage($adId, $imageData): string
+    {
+        $dbStoredImageName = $this->adRepository->getCurrentImageUriByAdId($adId);
+        if(!empty($dbStoredImageName)) {
+            $directoryWithImgName = __DIR__ . "/../public". (explode('.', $dbStoredImageName)[0]);
+           $this->makeImageFromBase64($imageData, $directoryWithImgName);
+        }
+        throw new InternalErrorException("Image not found");
+
     }
 
 }

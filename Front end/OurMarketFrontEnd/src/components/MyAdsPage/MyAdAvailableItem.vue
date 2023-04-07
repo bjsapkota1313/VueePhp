@@ -2,7 +2,7 @@
     <div class="card mb-3" id="card">
         <div class="row g-0">
             <div class="col-md-4 col-xl-4">
-                <img :src="fullImageUrl + ad.imageUri" class="img-fluid rounded-start">
+                <img :src="fullImageUrl + ad.imageUri" class="img-fluid rounded-start" style="height: 200px; width:200px">
             </div>
             <div class="col-md-8 col-xl-8 d-flex flex-column justify-content-around">
                 <div class="card-body">
@@ -35,6 +35,7 @@
                     <EditAdModal v-if="showModal"
                                  :adId="selectedAdId"
                                  @closeModal="closeEditAdModal"
+                                  @editedSuccessfully="editedSuccessfully"
                     ></EditAdModal>
                 </div>
 
@@ -156,6 +157,10 @@ export default {
         editButtonClick(id) {
             this.selectedAdId = id;
             this.openEditAdModal();
+        },
+        editedSuccessfully() {
+            this.closeEditAdModal();
+            this.$emit('adEditedSuccessFully');
         }
     },
 

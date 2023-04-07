@@ -7,8 +7,6 @@ G
 app/dbconfig.php,8\a\8a3715e3335f3350dc1ace7882494e15d7ab96b2
 A
 app/composer.lock,c\3\c32263212f3e16c13caa4452876f2f6df8d19104
-A
-app/composer.json,c\d\cda2529fcd4a1b204404a4f545346869efacdb8e
 a
 1app/models/Exceptions/FileManagementException.php,9\9\99c5b6b2db566a0def35e3aae01910fd9137e5de
 D
