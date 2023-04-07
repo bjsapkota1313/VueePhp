@@ -45,7 +45,6 @@ export default {
     data() {
         return {
             ads: [],
-            currentPage: 1,
             limit: 4,
             offset: 0,
             url: '/ads',

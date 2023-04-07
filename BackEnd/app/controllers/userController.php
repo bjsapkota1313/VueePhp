@@ -77,6 +77,10 @@ class UserController extends AbstractController
         try{
             if ($this->service->isUserAdmin($token->data->id)) {
                 $users = $this->service->getAll($limit, $offset);
+                if(empty($users)){
+                    $this->respondWithError(204, "No Users Found");
+                    return;
+                }
                 $this->respond($users);
                 return;
             }
