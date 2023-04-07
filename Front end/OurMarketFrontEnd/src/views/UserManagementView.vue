@@ -1,8 +1,8 @@
 <template>
     <div class="container-fluid pt-5">
-        <div v-if="userSessionStore.isLoggedIn">
+        <div v-if="userSessionStore.isLoggedIn ">
             <UserManagementTable :users="usersWithoutLoggedUser" @userDeletedSuccessFully="userDeletedSuccessFully"
-                                 v-if="isAdmin">
+                                 v-if="isAdmin ">
             </UserManagementTable>
             <div class="container" v-else>
                 <h1 class="text-center">You are not authorized to view this page only Admin are Allowed</h1>
@@ -32,7 +32,7 @@ export default {
     data() {
         return {
             users: [],
-            isAdmin: true,
+            isAdmin: false,
             noUsers: false
         }
     },
@@ -49,6 +49,7 @@ export default {
             return axios.get('/users')
                 .then(response => {
                     if (response.status === 200) {
+                        this.isAdmin = true;
                         return response.data;
                     }
                 })

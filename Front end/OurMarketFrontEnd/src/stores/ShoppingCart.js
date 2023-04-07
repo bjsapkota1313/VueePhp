@@ -53,7 +53,7 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
         removeAd(adId) {
             this.adIds = this.adIds.filter(
                 (id) => id !== adId);
-            this.ads = this.ads.filter((ad) => ad.id !== adId);
+            this.loadsAds();
             this.saveInLocalStorage();
         },
         checkExistenceOfAdInCart(adId) {
@@ -73,7 +73,7 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
                             }
                         }
                     ).catch((error) => {
-                    if (response.status === 404) {
+                    if (error.response.status === 404) {
                         let title = "This ad is not available anymore. ";
                         let text = "It might have been deleted by the owner or it might have been sold.";
                         Swal.fire({
