@@ -26,7 +26,6 @@
                                     data-bs-target="#myModal">
                                 <i class="fa-solid fa-pen-to-square"></i> Post New Ad
                             </button>
-                            <!--                            //TODo: Change this to a router link-->
                         </div>
                     </div>
                 </div>

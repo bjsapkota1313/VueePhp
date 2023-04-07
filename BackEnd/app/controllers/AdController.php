@@ -9,6 +9,7 @@ use Models\Exceptions\NotFoundException;
 use Models\Exceptions\ObjectCreationException;
 use Models\Exceptions\UnsupportedFile;
 use Models\InterfaceAPIController;
+use Models\Status;
 use mysql_xdevapi\Exception;
 use Services\AdService;
 use Models\Ad;
@@ -91,6 +92,10 @@ class AdController extends AbstractController implements InterfaceAPIController
 
     function delete($id)
     {
+        $token = $this->checkForJwt();
+        if (empty($token)) {
+            return;
+        }
         try {
             if ($this->adService->deleteAd($id)) {
                 $this->respond(true);
@@ -123,15 +128,29 @@ class AdController extends AbstractController implements InterfaceAPIController
         // Retrieve the request body
         $requestBody = file_get_contents('php://input');
         parse_str($requestBody, $requestParams);
-
         $adDetails = $this->sanitize(json_decode($requestParams['adDetails']));
         if (!empty($requestParams['image'])) {
             $adDetails->image = $requestParams['image'];
         }
         try {
+
             $this->adService->editAdWithNewDetails($adDetails, $id);
             $this->respond(true);
         } catch (InternalErrorException|FileManagementException $e) {
+            $this->respondWithError(500, "Something went wrong while updating the ad");
+        }
+    }
+
+    public function markAsSold($id)
+    {
+        $token = $this->checkForJwt();
+        if (empty($token)) {
+            return;
+        }
+        try {
+            $this->adService->markAdAsSold($id);
+            $this->respond(true);
+        } catch (Exception $e) {
             $this->respondWithError(500, "Something went wrong while updating the ad");
         }
     }
@@ -165,8 +184,6 @@ class AdController extends AbstractController implements InterfaceAPIController
         $this->respond($ads);
 
     }
-
-
     public function checkOut()
     {
         $adsIds = $this->getSanitizedData();
@@ -179,15 +196,5 @@ class AdController extends AbstractController implements InterfaceAPIController
             $this->respondWithError(404, $e->getMessage());
         }
     }
-    public function markAdAsSold($id)
-    {
-        try {
-            $this->adService->markAdAsSold($id);
-            $this->respond(true);
-        } catch (InternalErrorException $e) {
-            $this->respondWithError(500, "Something went wrong");
-        } catch (NotFoundException $e) {
-            $this->respondWithError(404, $e->getMessage());
-        }
-    }
+
 }

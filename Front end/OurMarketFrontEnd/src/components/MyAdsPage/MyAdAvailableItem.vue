@@ -2,7 +2,8 @@
     <div class="card mb-3" id="card">
         <div class="row g-0">
             <div class="col-md-4 col-xl-4">
-                <img :src="fullImageUrl + ad.imageUri" class="img-fluid rounded-start" style="height: 200px; width:200px">
+                <img :src="fullImageUrl + ad.imageUri" class="img-fluid rounded-start"
+                     style="height: 200px; width:200px">
             </div>
             <div class="col-md-8 col-xl-8 d-flex flex-column justify-content-around">
                 <div class="card-body">
@@ -35,7 +36,7 @@
                     <EditAdModal v-if="showModal"
                                  :adId="selectedAdId"
                                  @closeModal="closeEditAdModal"
-                                  @editedSuccessfully="editedSuccessfully"
+                                 @editedSuccessfully="editedSuccessfully"
                     ></EditAdModal>
                 </div>
 
@@ -109,27 +110,22 @@ export default {
             });
         },
         markAsSold(id) {
-            let adStatus =
-                {
-                    status: "Sold"
-                };
-            this.sendPutRequest(id, adStatus)
+            this.sendPutRequest(id)
                 .then(response => {
-                    console.log(response);
-                    //  this.$emit('AdMarkedAsSoldSuccessFully');
+                    this.$emit('adMarkedAsSoldSuccessFully');
                 })
                 .catch(error => {
                     Swal.fire({
                         title: 'Something went wrong!',
                         text: error,
-                        icon: 'error"'
+                        icon: 'error'
                     });
                 });
 
         },
-        sendPutRequest(id, adStatus) {
+        sendPutRequest(id) {
             return new Promise((resolve, reject) => {
-                axios.put('/ads/' + id, adStatus)
+                axios.put('/ads/markAsSold/' + id)
                     .then((response) => {
                         resolve();
                     })
@@ -163,7 +159,6 @@ export default {
             this.$emit('adEditedSuccessFully');
         }
     },
-
 }
 </script>
 
