@@ -65,9 +65,18 @@ class UserController extends AbstractController
         if (empty($token)) {
             return;
         }
+        $offset = null;
+        $limit = null;
+
+        if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
+            $offset = $_GET["offset"];
+        }
+        if (isset($_GET["limit"]) && is_numeric($_GET["limit"])) {
+            $limit = $_GET["limit"];
+        }
         try{
             if ($this->service->isUserAdmin($token->data->id)) {
-                $users = $this->service->getAll();
+                $users = $this->service->getAll($limit, $offset);
                 $this->respond($users);
                 return;
             }

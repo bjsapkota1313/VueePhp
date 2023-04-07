@@ -14,7 +14,6 @@ abstract class AbstractRepository
     {
 
         require __DIR__ . '/../dbconfig.php';
-
         try {
             $this->connection = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUsername, $dbPassword);
             // set the PDO error mode to exception
@@ -44,6 +43,9 @@ abstract class AbstractRepository
 
     private function bindValuesToQuery($stmt, $params): void
     {
+        if(empty($params)){
+            return;
+        }
         foreach ($params as $key => $value) {
             if (is_int($value)) {
                 $stmt->bindValue($key, $value, PDO::PARAM_INT);
@@ -78,5 +80,15 @@ abstract class AbstractRepository
             }
 
         }
+    }
+    protected function buildLimitOffsetClause($limit, $offset): ?array
+    {
+        if (isset($limit) && isset($offset)) {
+            return [
+                'query' => 'LIMIT :limit OFFSET :offset',
+                'parameters' => [':limit' => $limit, ':offset' => $offset]
+            ];
+        }
+        return null;
     }
 }

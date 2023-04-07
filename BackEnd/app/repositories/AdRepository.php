@@ -186,42 +186,4 @@ class AdRepository extends AbstractRepository
         }
         return null;
     }
-
-    /**
-     * @throws FileManagementException
-     */
-    private function editImageFile($dbStoredImageName, $newImage): ?string
-    {
-        try {
-            $imageTempName = $newImage['tmp_name'];
-            $newImageName = $newImage['name'];
-            $newImageArray = explode('.', $newImageName);
-            $newImageExtension = end($newImageArray);
-            $storedImageName = explode('.', $dbStoredImageName);
-            $dbStoredNameWithoutExtension = reset($storedImageName);
-            $targetDirectory = __DIR__ . '/../public';
-            if ($this->deleteImageFile($dbStoredImageName)) {
-                // deleting the file and renaming the new received image and returning it
-                $newFileName = $dbStoredNameWithoutExtension . '.' . $newImageExtension;
-                if (!move_uploaded_file($imageTempName, $targetDirectory . $newFileName)) {
-                    throw new FileManagementException("error occurred while moving file ");
-                };
-                return $newFileName;
-            }
-            throw  new FileManagementException("error occurred while deleting old  file ");
-        } catch (Exception $e) {
-            throw new FileManagementException("error occurred while editing file ");
-        }
-    }
-
-    private function buildLimitOffsetClause($limit, $offset): ?array
-    {
-        if (isset($limit) && isset($offset)) {
-            return [
-                'query' => 'LIMIT :limit OFFSET :offset',
-                'parameters' => [':limit' => $limit, ':offset' => $offset]
-            ];
-        }
-        return null;
-    }
 }

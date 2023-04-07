@@ -61,12 +61,12 @@ class UserService
         return $this->repository->insertUserInDatabase($userDetails);
     }
 
-    public function CheckUserExistenceByEmail($email) :bool{
-        return $this->repository->CheckUserEmailExistence($email);
+    public function checkUserExistenceByEmail($email) :bool{
+        return $this->repository->checkUserEmailExistence($email);
     }
-    public function getAll() :?array
+    public function getAll($limit,$offset) :?array
     {
-        return $this->repository->getAll();
+        return $this->repository->getAll($limit,$offset);
     }
 
     /**
