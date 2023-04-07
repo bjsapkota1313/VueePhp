@@ -17,16 +17,12 @@ Q
 !app/repositories/AdRepository.php,2\7\27b00d5ed20f66ea76b56c9b767be5e6f5055e56
 J
 app/services/AdService.php,d\c\dc412f2fd6b85611629f9b4080026afc20749667
-V
-&app/controllers/AbstractController.php,1\9\1920aae7c861daa8961fc0ff64388cc3e39a7a9a
 @
 app/dbconfig.php,8\a\8a3715e3335f3350dc1ace7882494e15d7ab96b2
 A
 app/composer.lock,c\3\c32263212f3e16c13caa4452876f2f6df8d19104
 D
 app/public/index.php,d\f\df187f96b153386aefda0ec4775d5524cf695467
-D
-app/Errors/error.log,6\f\6f287a0b9cb57e1a30052f3ff8aebe205f9092af
 L
 app/services/userservice.php,8\8\885dc83e4cc7c08e12fd59e86659601160f5cac4
 S

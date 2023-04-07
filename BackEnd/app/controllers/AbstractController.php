@@ -46,12 +46,14 @@ abstract class AbstractController
         $data = array('errorMessage' => $message);
         $this->respondWithCode($httpCode, $data);
     }
+
     protected function respondWithCode($httpCode, $data): void
     {
         header('Content-Type: application/json; charset=utf-8');
         http_response_code($httpCode);
         echo json_encode($data);
     }
+
     protected function getSanitizedData()
     {
         $json = file_get_contents('php://input');

@@ -1,7 +1,0 @@
-
-T	php:S1784"?Explicitly mention the visibility of this method "checkForJwt".(Í­ç
-U	php:S1784'";Explicitly mention the visibility of this method "respond".(úµÏ†ÿÿÿÿÿ
-^	php:S1784,"DExplicitly mention the visibility of this method "respondWithError".(ğØ»âøÿÿÿÿ
-qphp:S117"]Rename this local variable "$secret_key" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ş“¥Ô
-I	php:S3801"4Refactor this function to use "return" consistently.(Í­ç
-Q	php:S1793F"<Replace this "else if" keyword sequence by "elseif" keyword.(¸÷³Ğ
