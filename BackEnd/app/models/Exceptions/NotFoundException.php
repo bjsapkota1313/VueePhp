@@ -2,7 +2,7 @@
 
 namespace Models\Exceptions;
 
-class NotFoundException extends DatabaseException
+class NotFoundException extends \Exception
 {
     public function __construct($message, $code = 0, Exception $previous = null)
     {

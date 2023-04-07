@@ -2,7 +2,7 @@
 
 namespace Models\Exceptions;
 
-class UnsupportedFile extends FileManagementException
+class UnsupportedFileException extends FileManagementException
 {
     public function __construct($message = "Unsupported File", $code = 0, Throwable $previous = null)
     {

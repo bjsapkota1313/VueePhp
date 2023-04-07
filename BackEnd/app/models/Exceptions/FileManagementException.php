@@ -3,7 +3,7 @@
 namespace Models\Exceptions;
 use Exception;
 
-class FileManagementException extends Exception
+class FileManagementException extends InternalErrorException
 {
     public function __construct($message, $code = 0, Exception $previous = null)
     {

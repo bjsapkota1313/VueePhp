@@ -5,7 +5,7 @@
                                  v-if="isAdmin">
             </UserManagementTable>
             <div class="container" v-else>
-                <h1 class="text-center">You are not authorized to view this page</h1>
+                <h1 class="text-center">You are not authorized to view this page only Admin are Allowed</h1>
             </div>
         </div>
         <div v-else>
@@ -37,7 +37,7 @@ export default {
         }
     },
     mounted() {
-        if(this.userSessionStore.isLoggedIn){
+        if (this.userSessionStore.isLoggedIn) {
             this.loadsUsers();
         }
     },
@@ -48,15 +48,17 @@ export default {
         getUsers() {
             return axios.get('/users')
                 .then(response => {
-                    if (response.status === 403) {
-                        this.isAdmin = false;
-
-                    } else if (response.status === 200) {
+                    if (response.status === 200) {
                         return response.data;
                     }
                 })
                 .catch(error => {
-                    throw new Error(error.response.data.errorMessage);
+                    if (error.response.status  === 403) {
+                        this.isAdmin = false;
+                    }
+                    else{
+                       console.log(error);
+                    }
                 });
         },
         loadsUsers() {
@@ -67,9 +69,6 @@ export default {
             } catch (error) {
                 console.log(error);
             }
-        },
-        deleteSuccessful() {
-            this.loadsUsers();
         }
     }, computed: {
         usersWithoutLoggedUser() {

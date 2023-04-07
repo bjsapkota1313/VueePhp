@@ -2,7 +2,7 @@
 namespace Models\Exceptions;
 use Exception;
 
-class DatabaseException extends Exception
+class DatabaseException extends InternalErrorException
 {
     public function __construct($message, $code = 0, Exception $previous = null)
     {

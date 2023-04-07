@@ -25,36 +25,6 @@ trait ImageManager
     /**
      * @throws FileManagementException
      */
-    function getImagesNameByMovingToDirectory($images, $pathToDir): array
-    {
-        try {
-            $imageNames = [];
-            foreach ($images as $key => $image) {
-                $imageName = $this->getUniqueImageNameByImageName($image);
-                $this->moveImageToSpecifiedDirectory($image, $pathToDir . $imageName);
-                // Check if the key already exists in $imageNames
-                if (isset($imageNames[$key])) {
-                    // If the key exists, append the new value to the existing value in the array
-                    if (is_array($imageNames[$key])) {
-                        $imageNames[$key][] = $imageName;
-                    } else {
-                        $imageNames[$key] = [$imageNames[$key], $imageName];
-                    }
-                } else {
-                    // If the key doesn't exist, add a new key-value pair to the array
-                    $imageNames[$key] = $imageName;
-                }
-            }
-            return $imageNames;
-        } catch (Exception $exception) {
-            throw new FileManagementException($exception->getMessage());
-        }
-
-    }
-
-    /**
-     * @throws FileManagementException
-     */
     function deleteImageFromDirectory($imagePath): void
     {
         if (file_exists($imagePath)) {
@@ -75,6 +45,7 @@ trait ImageManager
             $this->deleteImageFromDirectory($directory . $imageName);
         }
     }
+
     function checkValidImageOrNot($image): bool
     {
         $imageFileType = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
@@ -87,38 +58,19 @@ trait ImageManager
     /**
      * @throws FileManagementException
      */
-    function renameImageFromDirectory($oldImageName, $newImageName, $directory): void
-    {
-        if(!rename($directory . $oldImageName, $directory . $newImageName)){
-            throw new FileManagementException("File rename Failed:");
-        }
-    }
-
-    /**
-     * @throws FileManagementException
-     */
-    function editNewImageAccordanceToCurrent($currentImageName, $newImage, $directory): void
-    { //delete existing Image and rename previous One
-        $this->deleteImageFromDirectory($directory . $currentImageName);
-        $this->moveImageToSpecifiedDirectory($newImage, $directory . $currentImageName);
-    }
-
-    /**
-     * @throws FileManagementException
-     */
-    function makeImageFromBase64($imageData,$imageName): void
+    function makeImageFromBase64($imageData, $path): string
     { //imageName will come without Extension
         $imageFormat = explode(',', $imageData)[0];
         $replacingImageFormat = $imageFormat . ','; //replace the image format
         $decodedImage = base64_decode(str_replace($replacingImageFormat, '', $imageData));
-        $imageExtension=explode(';', explode('/', $imageFormat)[1])[0];
-        if($imageExtension != "jpg" && $imageExtension != "png" && $imageExtension != "jpeg"){
+        $imageExtension = explode(';', explode('/', $imageFormat)[1])[0];
+        if ($imageExtension != "jpg" && $imageExtension != "png" && $imageExtension != "jpeg") {
             throw new FileManagementException("Invalid Image Format");
         }
-        $imageName = $imageName . '.' . $imageExtension;
-        file_put_contents( $imageName, $decodedImage);
+        $imageName = '/img/'.uniqid() . '.' . $imageExtension;
+        file_put_contents($path.$imageName, $decodedImage);
+        return $imageName;
     }
-
 
 
 }

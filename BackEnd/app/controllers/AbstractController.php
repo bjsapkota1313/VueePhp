@@ -7,7 +7,7 @@ use Exception;
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
-abstract class AbstractController  //TODO: not every class should have the interface for the moment
+abstract class AbstractController
 {
     function checkForJwt()
     {

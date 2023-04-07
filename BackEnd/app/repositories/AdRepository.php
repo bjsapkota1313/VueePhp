@@ -153,17 +153,24 @@ class AdRepository extends AbstractRepository
     }
 
     /**
-     * @throws InternalErrorException|FileManagementException
+     * @throws InternalErrorException
      */
     public function editAd($adDetails, $adID)
     {
-        $query = "UPDATE Ads SET productName = :productName ,description = :description ,price = :price  WHERE id = :id";
+        $query = "UPDATE Ads SET productName = :productName, description = :description, price = :price";
+        if(!empty($adDetails->imageUri)) {
+            $query .= ", imageURI = :imageURI";
+        }
+        $query .= " WHERE id = :id";
         $parameters = [
             ":productName" => $adDetails->productName,
             ":description" => $adDetails->description,
             ":price" => $adDetails->price,
             ":id" => $adID,
         ];
+        if(!empty($adDetails->imageUri)) {
+            $parameters[":imageURI"] = $adDetails->imageUri;
+        }
         $result = $this->executeQueryAndGetResult($query, $parameters); // it is update query so it will return true or false
         return is_bool($result) ? $result : throw  new InternalErrorException("Something went wrong  in App while updating ad");
     }

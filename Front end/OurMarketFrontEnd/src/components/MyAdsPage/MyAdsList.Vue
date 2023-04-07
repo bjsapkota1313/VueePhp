@@ -21,11 +21,6 @@
                             <p class="card-text">You can help in reducing waste, pollution and greenhouse gas emissions
                                 by selling your
                                 used products to others who needs them.</p>
-                            <button id="buttonPostNewAd" type="button" class="btn btn-success btn-lg px-4 gap-3"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#myModal">
-                                <i class="fa-solid fa-pen-to-square"></i> Post New Ad
-                            </button>
                         </div>
                     </div>
                 </div>

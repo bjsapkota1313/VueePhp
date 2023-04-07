@@ -7,7 +7,7 @@ use Models\Exceptions\FileManagementException;
 use Models\Exceptions\InternalErrorException;
 use Models\Exceptions\NotFoundException;
 use Models\Exceptions\ObjectCreationException;
-use Models\Exceptions\UnsupportedFile;
+use Models\Exceptions\UnsupportedFileException;
 use Models\Status;
 use Repositories\AdRepository;
 use Models\ImageManager;
@@ -90,8 +90,9 @@ class AdService
      */
     public function editAdWithNewDetails($adDetails, $adId): void
     {
-        if(!empty($adDetails->image)){
-            $this->processImage($adId,$adDetails->image);
+        if (!empty($adDetails->image)) {
+            $adDetails->imageUri = $this->processImage($adId, $adDetails->image);
+            // receiving the image Name from Image Data
         }
         $this->adRepository->editAd($adDetails, $adId);
     }
@@ -114,7 +115,7 @@ class AdService
     private function saveImage($image): string
     {
         if ($this->checkValidImageOrNot($image) === false) {
-            throw new UnsupportedFile("Invalid Image File");
+            throw new UnsupportedFileException("Invalid Image File");
         }
         $uniqueName = $this->getUniqueImageNameByImageName($image);
         $this->moveImageToSpecifiedDirectory($image, __DIR__ . "/../public/img/" . $uniqueName);
@@ -125,14 +126,14 @@ class AdService
      * @throws ObjectCreationException
      * @throws NotFoundException
      */
-    private function checkAvailabilityOfAds($adIds):void
+    private function checkAvailabilityOfAds($adIds): void
     {
-        foreach ($adIds as $adId){
+        foreach ($adIds as $adId) {
             $dbAd = $this->getAdByID($adId);
             if (empty($dbAd)) {
                 throw new NotFoundException("Ad is does not exist Anymore");
             }
-            if(!$dbAd->getStatus()->equals(Status::Available())){
+            if (!$dbAd->getStatus()->equals(Status::Available())) {
                 throw new NotFoundException("Ad is already Sold ");
             }
         }
@@ -145,24 +146,19 @@ class AdService
     public function checkOut($adIds): void
     {
         $this->checkAvailabilityOfAds($adIds);
-        foreach ($adIds as $adId){ // when no error is thrown then mark all ads as sold
+        foreach ($adIds as $adId) { // when no error is thrown then mark all ads as sold
             $this->markAdAsSold($adId);
         }
     }
 
     /**
-     * @throws InternalErrorException
      * @throws FileManagementException
      */
     private function processImage($adId, $imageData): string
     {
-        $dbStoredImageName = $this->adRepository->getCurrentImageUriByAdId($adId);
-        if(!empty($dbStoredImageName)) {
-            $directoryWithImgName = __DIR__ . "/../public". (explode('.', $dbStoredImageName)[0]);
-           $this->makeImageFromBase64($imageData, $directoryWithImgName);
-        }
-        throw new InternalErrorException("Image not found");
-
+        $path = __DIR__ . "/../public"; //storing Location
+        $this->deleteAdImage($adId);
+        return $this->makeImageFromBase64($imageData, $path);
     }
 
 }

@@ -7,7 +7,7 @@ use Models\Exceptions\FileManagementException;
 use Models\Exceptions\InternalErrorException;
 use Models\Exceptions\NotFoundException;
 use Models\Exceptions\ObjectCreationException;
-use Models\Exceptions\UnsupportedFile;
+use Models\Exceptions\UnsupportedFileException;
 use Models\InterfaceAPIController;
 use Models\Status;
 use mysql_xdevapi\Exception;
@@ -29,7 +29,6 @@ class AdController extends AbstractController implements InterfaceAPIController
     {
         $offset = null;
         $limit = null;
-
         if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
             $offset = $_GET["offset"];
         }
@@ -41,18 +40,19 @@ class AdController extends AbstractController implements InterfaceAPIController
             return;
 
         }
-        $ads = $this->adService->getAllAvailableAds($limit, $offset);
+        try{
+            $ads = $this->adService->getAllAvailableAds($limit, $offset);
+        }
+        catch (InternalErrorException $e){
+            $this->respondWithError(500,$e->getMessage());
+            return;
+        }
         if (empty($ads)) {
             return $this->respondWithError(204, "No ads anymore");
         }
         $this->respond($ads);
-
-
     }
 
-    /**
-     * @throws ObjectCreationException
-     */
     function getOne($id)
     {
         try {
@@ -63,7 +63,7 @@ class AdController extends AbstractController implements InterfaceAPIController
                 $this->respond($ad);
             }
         } catch (InternalErrorException|ObjectCreationException $e) {
-            $this->respondWithError(500, "Something went wrong while fetching the ad");
+            $this->respondWithError(500, $e->getMessage());
         }
     }
 
@@ -83,8 +83,9 @@ class AdController extends AbstractController implements InterfaceAPIController
             } else {
                 $this->respondWithError(500, "Please try again something went wrong while adding your error");
             }
-        } catch (UnsupportedFile $e) {
+        } catch (UnsupportedFileException $e) {
             $this->respondWithError(415, $e->getMessage());
+            // Image File Doesnot match the supported file types
         } catch (FileManagementException|InternalErrorException $e) {
             $this->respondWithError(500, $e->getMessage());
         }
@@ -111,12 +112,17 @@ class AdController extends AbstractController implements InterfaceAPIController
 
     private function handleSearchRequest($name, $limit, $offset): void
     {
-        $ads = $this->adService->searchAdsByProductName($name, $limit, $offset);
-        if (empty($ads)) {
-            $this->respondWithError(404, "No ads found with this name {$name}");
+        try {
+            $ads = $this->adService->searchAdsByProductName($name, $limit, $offset);
+            if (empty($ads)) {
+                $this->respondWithError(404, "No ads found with this name {$name}");
+                return;
+            }
+            $this->respond($ads);
+        } catch (InternalErrorException $e) {
+            $this->respondWithError(500, $e->getMessage());
             return;
         }
-        $this->respond($ads);
     }
 
     function update($id)
@@ -133,7 +139,6 @@ class AdController extends AbstractController implements InterfaceAPIController
             $adDetails->image = $requestParams['image'];
         }
         try {
-
             $this->adService->editAdWithNewDetails($adDetails, $id);
             $this->respond(true);
         } catch (InternalErrorException|FileManagementException $e) {
@@ -182,10 +187,10 @@ class AdController extends AbstractController implements InterfaceAPIController
             return;
         }
         $this->respond($ads);
-
     }
+
     public function checkOut()
-    {
+    { //does not need to be logged in to check out
         $adsIds = $this->getSanitizedData();
         try {
             $this->adService->checkOut($adsIds);

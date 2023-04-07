@@ -62,6 +62,7 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
         , clearCart() {
             this.adIds = [];
             this.saveInLocalStorage();
+            this.ads = [];
         },
         getAd(adId) {
             return new Promise((resolve, reject) => {
@@ -70,13 +71,23 @@ export const UseShoppingCartStore = defineStore('ShoppingCart', {
                             if (response.status === 200) {
                                 resolve(response.data);
                             }
-                            if (response.status === 404) {
-                                let message = "This ad is not available anymore. ";
-                                reject(message);
-                            }
                         }
                     ).catch((error) => {
-                    reject(error.response.data.errorMessage);
+                    if (response.status === 404) {
+                        let title = "This ad is not available anymore. ";
+                        let text = "It might have been deleted by the owner or it might have been sold.";
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: title,
+                            text: text,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                    else {
+                        reject(error.response.data.errorMessage);
+                    }
                 });
             });
         },

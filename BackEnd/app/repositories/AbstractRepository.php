@@ -2,6 +2,8 @@
 
 namespace Repositories;
 
+use Models\Exceptions\DatabaseException;
+use Models\Exceptions\InternalErrorException;
 use PDO;
 use PDOException;
 
@@ -10,6 +12,9 @@ abstract class AbstractRepository
 
     protected $connection;
 
+    /**
+     * @throws InternalErrorException
+     */
     function __construct()
     {
 
@@ -19,7 +24,7 @@ abstract class AbstractRepository
             // set the PDO error mode to exception
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-
+            throw new InternalErrorException("Connection to Database Failedf");
         }
     }
 
@@ -37,7 +42,7 @@ abstract class AbstractRepository
             }
 
         } catch (PDOException $e) {
-            echo $e;
+            throw new DatabaseException("Query Execution Failed");
         }
     }
 
