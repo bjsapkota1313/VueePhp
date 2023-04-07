@@ -15,6 +15,12 @@
 <script>
 export default {
     name: "Pagination",
+    props:{
+        needMorePages: {
+            type: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
             activePage: 1,
@@ -32,7 +38,7 @@ export default {
             if (this.activePage < this.pageNumbers.length) {
                 this.activePage++;
             } else {
-                if(this.pageNumbers.length < 5){
+                if(this.needMorePages){
                     this.pageNumbers.push(this.pageNumbers.length + 1);
                     this.activePage = this.pageNumbers.length;
                 }

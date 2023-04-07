@@ -114,14 +114,14 @@ class UserController extends AbstractController
         $issuer = "OurMarket.com";
         $audience = "OurMarket.com/Website";
         $issuedAt = time(); // issued at
-        $notbefore = $issuedAt; //not valid before 
-        $expire = $issuedAt + 86400; // expiration time is set at +600 seconds (25 min ) //TODO: change to 25 min
+        $notBefore = $issuedAt; //not valid before
+        $expire = $issuedAt + 1500; // expiration time is set at +600 seconds (25 min )
 
         $payload = array(
             "iss" => $issuer,
             "aud" => $audience,
             "iat" => $issuedAt,
-            "nbf" => $notbefore,
+            "nbf" => $notBefore,
             "exp" => $expire,
             "data" => array(
                 "id" => $user->getId(),

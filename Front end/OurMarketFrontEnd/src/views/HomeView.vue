@@ -24,8 +24,8 @@
         </div>
         <pagination class="pt-3" @previous="previousPageClicked"
                     @next="nextBtnPageClicked"
+                    :needMorePages="!noAds"
         ></pagination>
-
     </div>
 </template>
 
