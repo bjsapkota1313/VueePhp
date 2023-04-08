@@ -64,7 +64,7 @@
 
 <script>
 import ShoppingCartItem from "./ShoppingCartItem.vue";
-import {UseShoppingCartStore} from "@/stores/ShoppingCart";
+import {UseShoppingCartStore} from "@/stores/ShoppingCart.js";
 import axios from '@/axios-auth.js';
 import Swal from "sweetalert2";
 

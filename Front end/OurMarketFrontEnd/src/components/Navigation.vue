@@ -65,8 +65,8 @@
 </template>
 
 <script>
-import {useUserSessionStore} from '@/stores/userSession.js'
-import {UseShoppingCartStore} from "@/stores/shoppingCart.js";
+import {useUserSessionStore} from '@/stores/UserSession.js'
+import {UseShoppingCartStore} from "@/stores/ShoppingCart.js";
 
 export default {
     name: "Navigation",
