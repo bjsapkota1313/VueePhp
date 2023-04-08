@@ -1,4 +1,4 @@
-# OurMarket.com(Web Development-1)
+# OurMarket.com(Web Development-2)
 
 This application is a web-based ads platform that utilizes the following technologies:
 - NGINX webserver
