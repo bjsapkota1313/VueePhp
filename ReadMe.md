@@ -23,12 +23,7 @@ This application is a web-based ads platform that utilizes the following technol
 - In application both Admin and Customer can post Ad and and crud in their Ad
 
 ## Running the Application
- **Note:** docker-compose down -v to delete al the volume of the containers and set it again
-To run the application, use the command:
-```bash
-docker-compose down -v
-docker-compose up
-```
+Live App : https://vuee-php-hhui-m5ewlpcc3-bjsapkota1313.vercel.app
 
 
 ## Test Users
