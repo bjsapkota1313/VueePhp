@@ -12,3 +12,4 @@ _	php:S1808e"EPut one space between this "try" keyword and the opening curly b
 ^	php:S1784"DExplicitly mention the visibility of this constructor "__construct".(‡ΈΪωÿÿÿÿ
 ]	php:S1142>"<This method has 4 returns, which is more than the 3 allowed.(ρµθϊÿÿÿÿ8Ω¥‰λυ0
 qphp:S117u"]Rename this local variable "$secret_key" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ώ“¥Τ
+y	php:S5713n"]Remove this useless Exception class; it derives from class exception which is already caught.(¶ΞΫΆ8°†―φ0

@@ -32,7 +32,7 @@
 <script>
 import UserManagementTable from "@/components/UserManageMent/UserManagementTable.vue";
 import axios from '@/axios-auth.js';
-import {useUserSessionStore} from '@/stores/userSession.js'
+import {useUserSessionStore} from '@/stores/UserSession.js'
 import Pagination from "@/components/Pagination.vue";
 
 export default {

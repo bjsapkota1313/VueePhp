@@ -11,7 +11,7 @@
 
 <script>
 import Login from '@/components/Login.vue'
-import {useUserSessionStore} from '@/stores/userSession.js'
+import {useUserSessionStore} from '@/stores/UserSession.js'
 export default {
     name: 'LoginView',
     components: {

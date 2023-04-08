@@ -34,7 +34,7 @@
 
 <script>
 import MyAdsList from '@/components/MyAdsPAge/MyAdsList.vue'
-import {useUserSessionStore} from '@/stores/userSession.js'
+import {useUserSessionStore} from '@/stores/UserSession.js'
 import AddAdModal from '@/components/MyAdsPAge/AddAdModal.vue'
 
 export default {
