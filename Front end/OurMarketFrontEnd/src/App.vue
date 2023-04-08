@@ -7,9 +7,9 @@
   <Footer v-if="$route.path !== '/login' && $route.path !== '/login/signup'" ></Footer>
 </template>
 <script >
-import { useUserSessionStore } from './stores/userSession.js'
+import { useUserSessionStore } from '@/stores/userSession.js'
 import { RouterLink, RouterView } from 'vue-router';
-import Navigation from './components/Navigation.vue'
+import Navigation from '@/components/Navigation.vue';
 import {UseShoppingCartStore} from "@/stores/ShoppingCart";
 import Footer from "@/components/Footer.vue";
 
