@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { useUserSessionStore } from '@/stores/userSession.js'
+import { useUserSessionStore } from '@/stores/UserSession.js'
 
 export default {
     name: 'Login',

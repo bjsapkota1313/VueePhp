@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { IMG_BASE_URL } from '@/constants';
+import { IMG_BASE_URL } from '@/constants.js';
 export default {
     name: "MyAdOtherStatusItem",
     props: {

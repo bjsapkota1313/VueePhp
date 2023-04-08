@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import {IMG_BASE_URL} from '../../constants.js';
+import {IMG_BASE_URL} from '@/constants.js';
 import axios from '@/axios-auth.js';
 import Swal from "sweetalert2";
 import EditAdModal from "./EditAdModal.vue";

@@ -52,7 +52,7 @@
 
 <script>
 import axios from '@/axios-auth.js';
-import {IMG_BASE_URL} from '../../constants.js';
+import {IMG_BASE_URL} from '@/constants.js';
 import Swal from "sweetalert2";
 
 export default {

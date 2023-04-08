@@ -59,7 +59,7 @@
 
 <script>
 import axios from '@/axios-auth.js'
-import {useUserSessionStore} from "@/stores/UserSession";
+import {useUserSessionStore} from "@/stores/UserSession.js";
 import Swal from "sweetalert2";
 
 export default {

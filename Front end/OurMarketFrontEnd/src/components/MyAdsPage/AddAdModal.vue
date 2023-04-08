@@ -50,7 +50,6 @@
 
 <script>
 import axios from '@/axios-auth.js';
-import {formToJSON} from "axios";
 
 export default {
     name: "AddAdModal",

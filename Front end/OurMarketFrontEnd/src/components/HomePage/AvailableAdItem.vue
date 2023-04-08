@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import {IMG_BASE_URL} from '../../constants.js';
-import  {UseShoppingCartStore} from "@/stores/shoppingCart.js";
+import {IMG_BASE_URL} from '@/constants.js';
+import  {UseShoppingCartStore} from "@/stores/ShoppingCart.js";
 import Swal from "sweetalert2";
 export default {
     name: "AvailableAdItem",

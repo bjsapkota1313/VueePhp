@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import {IMG_BASE_URL} from '../../constants.js';
-import {UseShoppingCartStore} from "@/stores/shoppingCart.js";
+import {IMG_BASE_URL} from '@/constants.js';
+import {UseShoppingCartStore} from "@/stores/ShoppingCart.js";
 
 export default {
     name: "ShoppingCartItem",
