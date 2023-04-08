@@ -3,7 +3,7 @@
         <div class="text-center bg-dark body pt-5">
             <div class="form-signin w-100 m-auto pt-5" id="loginForm">
                 <div class="form pt-5">
-                    <router-link to="/"><img class="mb-4" src="@/assets/logo.svg" alt="BusinessLogo" width="250"
+                    <router-link to="/"><img class="mb-4" src="@/assets/Logo.svg" alt="BusinessLogo" width="250"
                             height="80"></router-link>
                     <h1 class="h3 mb-3 fw-bold">Log In</h1>
                     <div class="form-floating">

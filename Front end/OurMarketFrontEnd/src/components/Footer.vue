@@ -1,6 +1,6 @@
 <template>
     <footer class="footer mt-auto py-3 bg-dark d-flex justify-content-between align-items-center text-white">
-        <div class="pl-5"><img src="@/assets/logo.svg" alt="Company Logo" class="img-fluid" style="max-width:150px;"></div>
+        <div class="pl-5"><img src="@/assets/Logo.svg" alt="Company Logo" class="img-fluid" style="max-width:150px;"></div>
         <div class="text-center text-muted">
             Copyright &copy; 2023 OurMarket
         </div>
