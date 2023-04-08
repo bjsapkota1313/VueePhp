@@ -5,8 +5,6 @@ B
 docker-compose.yml,3\5\35b8c13cf2eb2a194eada000eb310d65aed53b2a
 >
 PHP.Dockerfile,b\2\b237dce4c8a76d56b7cdfe507e61f82336214311
-9
-	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 A
 app/models/Ad.php,b\c\bc2be21bc923c6bff292d715964f247e8452b763
 A
@@ -35,3 +33,25 @@ P
  app/controllers/AdController.php,9\f\9f3afce6eee487ce795bc1560ead4e0a424ece65
 [
 +app/models/Exceptions/DatabaseException.php,0\3\03dd72bebc327da48928601709d67feb551c6650
+D
+app/models/Roles.php,d\a\daf72cf3b04338929daf511961d55e81e8782598
+U
+%app/models/InterfaceAPIController.php,0\8\08e88549376ba4d4e0c857437aa117cc3e0938a7
+[
++app/models/Exceptions/NotFoundException.php,f\b\fb0f3dcd45e38d03539163ba93b849360173bd35
+C
+app/models/User.php,a\f\af597125a98242ba3637328719fc60b1a07ea654
+`
+0app/models/Exceptions/InternalErrorException.php,0\5\05fed608822c77154a4e3da3dbf94d69456d761d
+K
+app/models/ImageManager.php,1\0\10380c5794d6e94be90eb382cf853d2e3cbca6a1
+a
+1app/models/Exceptions/ObjectCreationException.php,f\f\ff83dd6e6a88b04d5171aefeaa71e9114c996c6b
+E
+app/models/Status.php,d\8\d841f69365421055f2175d1a714cfb6031504703
+a
+1app/models/Exceptions/FileManagementException.php,9\9\99c5b6b2db566a0def35e3aae01910fd9137e5de
+R
+"app/controllers/userController.php,6\6\66d5b8801051e441ad6a156d63131fcfa3a634f1
+V
+&app/controllers/AbstractController.php,1\9\1920aae7c861daa8961fc0ff64388cc3e39a7a9a

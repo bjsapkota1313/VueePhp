@@ -1,0 +1,14 @@
+
+a	php:S1808Z"GMove this "catch" to the same line as the previous closing curly brace.(µõëåûÿÿÿÿ
+\	php:S1808n"GMove this "catch" to the same line as the previous closing curly brace.(¶ÎÛ¢
+k	php:S1808P"JPut one space between the closing parenthesis and the opening curly brace.(ÕÜÌÌøÿÿÿÿ8­¥‰ëõ0
+d	php:S1808Z"JPut one space between the closing parenthesis and the opening curly brace.(µõëåûÿÿÿÿ
+_	php:S1808n"JPut one space between the closing parenthesis and the opening curly brace.(¶ÎÛ¢
+_	php:S1808M"EPut one space between this "try" keyword and the opening curly brace.(¡»¢üùÿÿÿÿ
+e	php:S1808P"DPut one space between this "if" keyword and the opening parenthesis.(ÕÜÌÌøÿÿÿÿ8Ê¥‰ëõ0
+a	php:S1808Z"GPut one space between this "catch" keyword and the opening parenthesis.(µõëåûÿÿÿÿ
+_	php:S1808e"EPut one space between this "try" keyword and the opening curly brace.(¡»¢üùÿÿÿÿ
+\	php:S1808n"GPut one space between this "catch" keyword and the opening parenthesis.(¶ÎÛ¢
+^	php:S1784"DExplicitly mention the visibility of this constructor "__construct".(‡¸Úœùÿÿÿÿ
+]	php:S1142>"<This method has 4 returns, which is more than the 3 allowed.(šñµèúÿÿÿÿ8Ù¥‰ëõ0
+qphp:S117u"]Rename this local variable "$secret_key" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(þ“¥Ô
