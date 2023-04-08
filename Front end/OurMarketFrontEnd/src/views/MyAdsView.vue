@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import MyAdsList from '@/components/MyAdsPAge/MyAdsList.vue'
+import MyAdsList from '@/components/MyAdsPage/MyAdsList.vue'
 import {useUserSessionStore} from '@/stores/UserSession.js'
-import AddAdModal from '@/components/MyAdsPAge/AddAdModal.vue'
+import AddAdModal from '@/components/MyAdsPage/AddAdModal.vue'
 
 export default {
     name: "MyAdsView",
