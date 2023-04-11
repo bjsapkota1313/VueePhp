@@ -1,4 +1,4 @@
 import axios from "axios";
 const instance = axios.create({
-    baseURL:"http://localhost/api/"});
+    baseURL:"https://ourmarketbackend.000webhostapp.com/api/"});
 export default instance;
