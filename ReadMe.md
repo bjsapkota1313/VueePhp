@@ -23,7 +23,7 @@ This application is a web-based ads platform that utilizes the following technol
 - In application both Admin and Customer can post Ad and and crud in their Ad
 
 ## Running the Application
-Live App : https://vuee-php-hhui-m5ewlpcc3-bjsapkota1313.vercel.app
+Live App : https://vuee-php-hhui.vercel.app
 
 
 ## Test Users
